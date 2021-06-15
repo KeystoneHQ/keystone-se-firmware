@@ -1,0 +1,19 @@
+# build directory
+Objects/*
+binHistory/
+hexHistory/
+!Objects/*.fed
+
+# build files
+*.hex
+*.bin
+*.map
+*.lst
+
+# compile project
+.vscode/
+*uvopt*
+*.bak
+*uvgui*
+*.dep
+.idea/
