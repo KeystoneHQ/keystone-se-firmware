@@ -85,6 +85,7 @@ static void mason_cmd0305_get_extpubkey(void *pContext);
 static void mason_cmd0306_delete_wallet(void *pContext);
 static void mason_cmd0307_sign(void *pContext);
 static void mason_cmd0308_get_masterkey_fingerprint(void *pContext);
+static void mason_cmd0309_get_key(void *pContext);
 #ifdef MASON_TEST
 static void mason_cmd0401_generate_public_key_from_private_key(void *pContext);
 #endif
@@ -205,7 +206,12 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 		 {
 			 USER_WALLET,
 			 mason_cmd0308_get_masterkey_fingerprint,
-		 }},
+		 },
+		 {
+			 USER_WALLET,
+			 mason_cmd0309_get_key,
+		 },
+		 },
 		{//04 XX
 		 {
 			 USER_ALL,
@@ -2144,6 +2150,109 @@ static void mason_cmd0308_get_masterkey_fingerprint(void *pContext)
 
 	MASON_CMD_RESP_OUTPUT()
 }
+/**
+ * @functionname: mason_cmd0309_get_key
+ * @description: 
+ * @para: 
+ * @return: 
+ */
+static void mason_cmd0309_get_key(void *pContext)
+{
+	MASON_CMD_DECLARE_VARIABLE(ERT_CommFailParam)
+
+	uint8_t *path = NULL;
+	uint16_t path_len = 0;
+	wallet_path_t wallet_path;
+	char path_string[MAX_HDPATH_SIZE + 1] = {0};
+	private_key_t derived_private_key;
+	chaincode_t derived_chaincode;
+	extended_key_t extended_public_key;
+	crypto_curve_t curve_type = CRYPTO_CURVE_SECP256K1;
+	emRetType verify_emRet = ERT_Verify_Init;
+	uint8_t switchtype = (uint8_t)gemHDWSwitch;
+
+	mason_cmd_init_outputTLVArray(&stStack);
+
+	do
+	{
+		if (!stack_search_by_tag(pstS, &pstTLV, TLV_T_CMD))
+		{
+			emRet = ERT_CommFailParam;
+			break;
+		}
+		mason_cmd_append_ele_to_outputTLVArray(&stStack, pstTLV);
+
+		if (!stack_search_by_tag(pstS, &pstTLV, TLV_T_HDW_SWITCH) || (1 != pstTLV->L))
+		{
+			emRet = ERT_HDWalletSwitchNeed;
+			break;
+		}
+		if (switchtype != *(uint8_t *)pstTLV->pV)
+		{
+			emRet = ERT_HDWalletSwitchNotMatch;
+			break;
+		}
+
+		if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+		{
+			break;
+		}
+		verify_emRet = emRet;
+
+
+		if (!stack_search_by_tag(pstS, &pstTLV, TLV_T_HD_PATH))
+		{
+			emRet = ERT_CommFailParam;
+			break;
+		}
+		path_len = pstTLV->L;
+		path = (uint8_t *)pstTLV->pV;
+		if ((0 == path_len) || (path_len > MAX_HDPATH_SIZE))
+		{
+			emRet = ERT_HDPathIllegal;
+			break;
+		}
+
+		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_CURVE_TYPE) && ((1 == pstTLV->L)))
+		{
+			curve_type = (crypto_curve_t)(*(uint8_t *)pstTLV->pV);
+		}
+
+		if (CRYPTO_CURVE_SECP256K1 != curve_type)
+		{
+			emRet = ERT_GenKeyFail;
+			break;
+		}
+		else
+		{
+			memcpy((uint8_t *)path_string, path, path_len);
+			path_string[path_len] = 0;
+			if (!mason_parse_wallet_path_from_string(path_string, path_len, &wallet_path))
+			{
+				emRet = ERT_HDPathIllegal;
+				break;
+			}
+
+			if (!mason_bip32_derive_keys(&wallet_path, curve_type, &derived_private_key, &derived_chaincode, &extended_public_key))
+			{
+				emRet = ERT_HDPathIllegal;
+				break;
+			}
+		}
+
+		if (ERT_Verify_Success == verify_emRet)
+		{
+			emRet = ERT_OK;
+		}
+		mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_PRVKEY, derived_private_key.len, derived_private_key.data);
+	} while (0);
+
+	memset(&extended_public_key, 0, sizeof(extended_public_key));
+	memset(&derived_private_key, 0, sizeof(private_key_t));
+	memset(&derived_chaincode, 0, sizeof(chaincode_t));
+	MASON_CMD_RESP_OUTPUT()
+}
+
 #ifdef MASON_TEST
 /**
  * @functionname: mason_cmd0401_generate_public_key_from_private_key
