@@ -81,7 +81,7 @@ static void mason_cmd0203_iap_verify(void *pContext);
 static void mason_cmd0301_get_entropy(void *pContext);
 static void mason_cmd0302_create_wallet(void *pContext);
 static void mason_cmd0303_change_wallet_passphrase(void *pContext);
-static void mason_cmd0305_get_extpubkey(void *pContext);
+static void mason_cmd0305_get_key(void *pContext);
 static void mason_cmd0306_delete_wallet(void *pContext);
 static void mason_cmd0307_sign(void *pContext);
 static void mason_cmd0308_get_masterkey_fingerprint(void *pContext);
@@ -192,7 +192,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 		 },
 		 {
 			 USER_WALLET,
-			 mason_cmd0305_get_extpubkey,
+			 mason_cmd0305_get_key,
 		 },
 		 {
 			 USER_ALL,
@@ -1831,12 +1831,12 @@ static void mason_cmd0303_change_wallet_passphrase(void *pContext)
 	MASON_CMD_RESP_OUTPUT()
 }
 /**
- * @functionname: mason_cmd0305_get_extpubkey
- * @description: command for get specific extended public key by given hdpath and algorithm
+ * @functionname: mason_cmd0305_get_key
+ * @description: command for get specific key by given hdpath and algorithm, user authentication needed for senstive information
  * @para: 
  * @return: 
  */
-static void mason_cmd0305_get_extpubkey(void *pContext)
+static void mason_cmd0305_get_key(void *pContext)
 {
 	MASON_CMD_DECLARE_VARIABLE(ERT_OK)
 
@@ -1850,6 +1850,7 @@ static void mason_cmd0305_get_extpubkey(void *pContext)
 	crypto_curve_t curve_type = CRYPTO_CURVE_SECP256K1;
 	char base58_ext_key[256] = {0};
 	size_t base58_ext_key_len = 256;
+	emRetType verify_emRet = ERT_Verify_Init;
 	uint8_t switchtype = (uint8_t)gemHDWSwitch;
 
 	mason_cmd_init_outputTLVArray(&stStack);
@@ -1904,10 +1905,18 @@ static void mason_cmd0305_get_extpubkey(void *pContext)
 		{
 			memcpy((uint8_t *)path_string, path, path_len);
 			path_string[path_len] = 0;
-			if (!mason_wallet_path_is_pub(path_string, path_len) || !mason_parse_wallet_path_from_string(path_string, path_len, &wallet_path))
+			if (!mason_parse_wallet_path_from_string(path_string, path_len, &wallet_path))
 			{
 				emRet = ERT_HDPathIllegal;
 				break;
+			}
+			if (!mason_wallet_path_is_pub(path_string, path_len))
+			{
+				if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+				{
+					break;
+				}
+				verify_emRet = emRet;
 			}
 			if (!mason_bip32_derive_keys(&wallet_path, curve_type, &derived_private_key, &derived_chaincode, &extended_public_key))
 			{
@@ -1916,9 +1925,17 @@ static void mason_cmd0305_get_extpubkey(void *pContext)
 			}
 		}
 
-		b58enc(base58_ext_key, &base58_ext_key_len, (uint8_t *)&extended_public_key, sizeof(extended_public_key));
-		base58_ext_key[base58_ext_key_len] = 0;
-		mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_EXT_KEY, base58_ext_key_len - 1, (uint8_t *)base58_ext_key);
+		if (ERT_Verify_Success == verify_emRet)
+		{
+			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_PRVKEY, derived_private_key.len, derived_private_key.data);
+			emRet = ERT_OK;
+		}
+		else
+		{
+			b58enc(base58_ext_key, &base58_ext_key_len, (uint8_t *)&extended_public_key, sizeof(extended_public_key));
+			base58_ext_key[base58_ext_key_len] = 0;
+			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_EXT_KEY, base58_ext_key_len - 1, (uint8_t *)base58_ext_key);
+		}		
 	} while (0);
 
 	memset(&derived_private_key, 0, sizeof(private_key_t));
