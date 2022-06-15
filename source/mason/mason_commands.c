@@ -85,7 +85,7 @@ static void mason_cmd0305_get_extpubkey(void *pContext);
 static void mason_cmd0306_delete_wallet(void *pContext);
 static void mason_cmd0307_sign(void *pContext);
 static void mason_cmd0308_get_masterkey_fingerprint(void *pContext);
-static void mason_cmd0309_get_key(void *pContext);
+static void mason_cmd0304_get_key(void *pContext);
 #ifdef MASON_TEST
 static void mason_cmd0401_generate_public_key_from_private_key(void *pContext);
 #endif
@@ -188,8 +188,8 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 mason_cmd0303_change_wallet_passphrase,
 		 },
 		 {
-			 USER_ALL,
-			 mason_cmd_invalid,
+			 USER_WALLET,
+			 mason_cmd0304_get_key,
 		 },
 		 {
 			 USER_WALLET,
@@ -206,12 +206,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 		 {
 			 USER_WALLET,
 			 mason_cmd0308_get_masterkey_fingerprint,
-		 },
-		 {
-			 USER_WALLET,
-			 mason_cmd0309_get_key,
-		 },
-		 },
+		 }},
 		{//04 XX
 		 {
 			 USER_ALL,
@@ -2151,12 +2146,12 @@ static void mason_cmd0308_get_masterkey_fingerprint(void *pContext)
 	MASON_CMD_RESP_OUTPUT()
 }
 /**
- * @functionname: mason_cmd0309_get_key
+ * @functionname: mason_cmd0304_get_key
  * @description: 
  * @para: 
  * @return: 
  */
-static void mason_cmd0309_get_key(void *pContext)
+static void mason_cmd0304_get_key(void *pContext)
 {
 	MASON_CMD_DECLARE_VARIABLE(ERT_CommFailParam)
 
