@@ -2059,26 +2059,8 @@ static void mason_cmd0307_sign(void *pContext)
 		}
 		else
 		{
-			memcpy((uint8_t *)path_string, path, path_len);
-			path_string[path_len] = 0;
-			if (!mason_parse_wallet_path_from_string(path_string, path_len, &wallet_path))
-			{
-				emRet = ERT_HDPathIllegal;
-				break;
-			}
-
-			if (!mason_bip32_derive_keys(&wallet_path, curve_type, &derived_private_key, &derived_chaincode, &extended_public_key))
-			{
-				emRet = ERT_HDPathIllegal;
-				break;
-			}
-
-			private_key_to_public_key(curve_type, &derived_private_key, &derived_public_key);
-			if (!ecdsa_sign(curve_type, hash, hash_len, derived_private_key.data, signature, &signature_len))
-			{
-				emRet = ERT_ECDSASignFail;
-				break;
-			}
+			emRet = ERT_CommFailParam;
+			break;
 		}
 
 		if (ERT_Verify_Success == verify_emRet)
