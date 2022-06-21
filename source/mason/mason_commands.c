@@ -1850,7 +1850,6 @@ static void mason_cmd0305_get_key(void *pContext)
 	crypto_curve_t curve_type = CRYPTO_CURVE_SECP256K1;
 	char base58_ext_key[256] = {0};
 	size_t base58_ext_key_len = 256;
-	emRetType verify_emRet = ERT_Verify_Init;
 	uint8_t switchtype = (uint8_t)gemHDWSwitch;
 
 	mason_cmd_init_outputTLVArray(&stStack);
@@ -1924,6 +1923,7 @@ static void mason_cmd0305_get_key(void *pContext)
 			}
 		}
 
+		emRet = ERT_OK;
 		b58enc(base58_ext_key, &base58_ext_key_len, (uint8_t *)&extended_public_key, sizeof(extended_public_key));
 		base58_ext_key[base58_ext_key_len] = 0;
 		mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_EXT_KEY, base58_ext_key_len - 1, (uint8_t *)base58_ext_key);
