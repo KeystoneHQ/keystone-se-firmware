@@ -1916,7 +1916,6 @@ static void mason_cmd0305_get_key(void *pContext)
 				{
 					break;
 				}
-				verify_emRet = emRet;
 			}
 			if (!mason_bip32_derive_keys(&wallet_path, curve_type, &derived_private_key, &derived_chaincode, &extended_public_key))
 			{
@@ -1925,17 +1924,9 @@ static void mason_cmd0305_get_key(void *pContext)
 			}
 		}
 
-		if (ERT_Verify_Success == verify_emRet)
-		{
-			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_PRVKEY, derived_private_key.len, derived_private_key.data);
-			emRet = ERT_OK;
-		}
-		else
-		{
-			b58enc(base58_ext_key, &base58_ext_key_len, (uint8_t *)&extended_public_key, sizeof(extended_public_key));
-			base58_ext_key[base58_ext_key_len] = 0;
-			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_EXT_KEY, base58_ext_key_len - 1, (uint8_t *)base58_ext_key);
-		}		
+		b58enc(base58_ext_key, &base58_ext_key_len, (uint8_t *)&extended_public_key, sizeof(extended_public_key));
+		base58_ext_key[base58_ext_key_len] = 0;
+		mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_EXT_KEY, base58_ext_key_len - 1, (uint8_t *)base58_ext_key);
 	} while (0);
 
 	memset(&derived_private_key, 0, sizeof(private_key_t));
