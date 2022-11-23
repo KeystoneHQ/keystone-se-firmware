@@ -16,9 +16,9 @@ void printf_buff_byte(UINT8* buff, UINT32 length)
 
 	for(i=0;i<length;i++)
 	{
-		printf("%.2x ",buff[i]);	
+		//printf("%.2x ",buff[i]);	
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 /************************************************************************
@@ -35,9 +35,9 @@ void printf_buff_word(UINT32* buff, UINT32 length)
 
 	for(i=0;i<length;i++)
 	{
-		printf("%.8x ",buff[i]);	
+		//printf("%.8x ",buff[i]);	
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 #endif

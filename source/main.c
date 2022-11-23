@@ -284,11 +284,11 @@ void tamper_check(void)
 	{
 		if (E_HDWS_ATTACK == status.emHDWStatus)
 		{
-			printf("Already in ATTCK!\r\n");
+			//printf("Already in ATTCK!\r\n");
 		}
 		else
 		{
-			printf("Status goto ATTCK!\r\n");
+			//printf("Status goto ATTCK!\r\n");
 			mason_set_mode(HDW_STATUS_ATTACK);
 			mason_delete_wallet();
 			mason_setting_delete();

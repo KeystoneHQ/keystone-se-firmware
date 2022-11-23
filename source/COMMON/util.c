@@ -325,13 +325,13 @@ uint8_t get_lrc(uint8_t *pMsg, uint16_t msgLen)
 void debug_key(char *name, uint8_t *key, uint16_t len)
 {
 	int i = 0;
-	printf("%s : ", name);
+	//printf("%s : ", name);
 	for (i = 0; i < len; i++)
 	{
 		// printf("\\x%02X", key[i]);
-		printf("%02X ", key[i]);
+		//printf("%02X ", key[i]);
 	}
-	printf("\n");
+	//printf("\n");
 }
 /**
  * @functionname: gen_random

@@ -32,6 +32,7 @@ in the file COPYING.  If not, see <http://www.gnu.org/licenses/>.
 wallet_seed_t passphrase_seed = {0};
 wallet_seed_t passphrase_seedFromEntropy = {0};
 wallet_seed_t passphrase_slip39_seed = {0};
+int keypair_already = 0; //1:write keypair success
 
 /** Function declarations */
 static bool mason_wallet_setup(mnemonic_t *mnemonic, entropy_t *entropy, uint8_t *passphrase, uint16_t passphrase_len, wallet_seed_t *seed, wallet_seed_t *seedFromEntropy);
@@ -286,6 +287,65 @@ static bool mason_slip39_dec_seed_write(wallet_seed_t *seed)
     bool is_succeed = false;
     is_succeed = mason_storage_write_buffer((uint8_t *)seed, sizeof(wallet_seed_t), FLASH_ADDR_SLIP39_DEC_SEED);
     return is_succeed;
+}
+/**
+ * @functionname: mason_read_rsa_keypair
+ * @description:
+ * @para:
+ * @return:
+ */
+bool mason_read_rsa_keypair(uint8_t* key)
+{
+    if (keypair_already != 1) 
+    {
+        return false;
+    }
+    uint8_t keypair[MAX_RSA_N_D_SIZE] = { 0 };
+    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_N_D_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
+    {
+        return false;
+    }
+    memcpy(key, keypair, MAX_RSA_N_D_SIZE);
+    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
+    {
+        return false;
+    }
+    memcpy(key + MAX_RSA_N_D_SIZE, keypair, MAX_RSA_N_D_SIZE);
+    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
+    {
+        return false;
+    }
+    memcpy(key + 2 * MAX_RSA_N_D_SIZE, keypair, MAX_RSA_N_D_SIZE);
+    
+    return true;
+}
+/**
+ * @functionname: mason_write_rsa_keypair
+ * @description:
+ * @para:
+ * @return:
+ */
+bool mason_write_rsa_keypair(uint8_t* key)
+{
+    uint8_t key_pair[MAX_RSA_N_D_SIZE] = { 0 };
+    memcpy(key_pair, key, MAX_RSA_N_D_SIZE);
+    if (!mason_storage_write_buffer(key_pair, MAX_RSA_N_D_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
+    {
+        return false;
+    }
+    memcpy(key_pair, key + MAX_RSA_N_D_SIZE, MAX_RSA_N_D_SIZE);
+    if (!mason_storage_write_buffer(key_pair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
+    {
+        return false;
+    }
+    memcpy(key_pair, key + 2 * MAX_RSA_N_D_SIZE, MAX_RSA_N_D_SIZE);
+    if (!mason_storage_write_buffer(key_pair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
+    {
+        return false;
+    }
+    
+    keypair_already = 1;
+    return true;
 }
 /**
  * @functionname: mason_create_bip39_wallet
@@ -880,6 +940,42 @@ emRetType mason_verify_slip39_seed(uint8_t *slip39_seed_data, uint16_t slip39_se
 
     memset(&slip39_m_seed, 0, sizeof(wallet_slip39_master_seed_t));
     return emRet;
+}
+/**
+ * @functionname: get_master_seed
+ * @description:
+ * @para:
+ * @return:
+ */
+bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data) {
+    wallet_seed_t seed = { 0 };
+
+    if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (passphrase_slip39_seed.length))
+    {
+        // PASSPHRASE slip39 seed
+        memcpy(&seed, &passphrase_slip39_seed, sizeof(wallet_seed_t));
+    }
+    else if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (SHA512_LEN == passphrase_seed.length))
+    {
+        // PASSPHRASE bip39 seed
+        memcpy(&seed, &passphrase_seed, sizeof(wallet_seed_t));
+    }
+    else if (mason_slip39_dec_seed_read(&seed))
+    {
+        // MNEMONIC slip39 seed
+    }
+    else if (mason_seed_read(&seed) && (SHA512_LEN == seed.length))
+    {
+        // MNEMONIC bip39 seed
+    }
+    else
+    {
+        return false;
+    }
+
+    memcpy(seed_data->data, seed.data, seed.length);
+    seed_data->length = seed.length;
+    return true;
 }
 /**
  * @functionname: mason_bip32_generate_master_key_from_root_seed

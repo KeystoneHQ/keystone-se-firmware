@@ -1716,6 +1716,16 @@ static void mason_cmd0302_create_wallet(void *pContext)
 				break;
 			}
 		}
+		else if (stack_search_by_tag(pstS, &pstTLV, TLV_T_RSA_KEYPAIR))
+		{
+			uint8_t* buff = (uint8_t*)pstTLV->pV;
+
+			if (!mason_write_rsa_keypair(buff))
+			{
+				emRet = ERT_WriteRSAkeyFail;
+				break;
+			}
+		}
 		else
 		{
 			emRet = ERT_CommFailParam;
@@ -1851,6 +1861,7 @@ static void mason_cmd0305_get_key(void *pContext)
 	char base58_ext_key[256] = {0};
 	size_t base58_ext_key_len = 256;
 	uint8_t switchtype = (uint8_t)gemHDWSwitch;
+	wallet_seed_t seed = { 0 };
 
 	mason_cmd_init_outputTLVArray(&stStack);
 
@@ -1884,6 +1895,31 @@ static void mason_cmd0305_get_key(void *pContext)
 		if ((0 == path_len) || (path_len > MAX_HDPATH_SIZE))
 		{
 			emRet = ERT_HDPathIllegal;
+			break;
+		}
+
+		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_MASTER_SEED))
+		{
+			if (!mason_pri_path_get_master_seed(&seed)) 
+			{
+				emRet = ERT_GetMasterSeedFail;
+				break;
+			}
+			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_SEED_DATA, seed.length, seed.data);
+			break;
+		}
+
+		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_RSA_KEY_PAIR))
+		{
+			uint8_t rsa_key_pair[MAX_RSA_KEYPAIR] = { 0 };
+			
+			if (!mason_read_rsa_keypair(rsa_key_pair))
+			{
+				emRet = RET_ReadRSAkeyFail;
+				break;
+			}
+			
+			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_RSA_KEYPAIR, MAX_RSA_KEYPAIR, rsa_key_pair);
 			break;
 		}
 
