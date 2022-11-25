@@ -300,22 +300,22 @@ bool mason_read_rsa_keypair(uint8_t* key)
     {
         return false;
     }
-    uint8_t keypair[MAX_RSA_STORAGE_SIZE] = { 0 };
-    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
         return false;
     }
-    memcpy(key, keypair, MAX_RSA_STORAGE_SIZE);
-    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
+    memcpy(key, key_pair, MAX_RSA_STORAGE_SIZE);
+    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
     {
         return false;
     }
-    memcpy(key + MAX_RSA_STORAGE_SIZE, keypair, MAX_RSA_STORAGE_SIZE);
-    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
+    memcpy(key + MAX_RSA_STORAGE_SIZE, key_pair, MAX_RSA_STORAGE_SIZE);
+    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
     {
         return false;
     }
-    memcpy(key + 2 * MAX_RSA_STORAGE_SIZE, keypair, MAX_RSA_STORAGE_SIZE);
+    memcpy(key + 2 * MAX_RSA_STORAGE_SIZE, key_pair, MAX_RSA_STORAGE_SIZE);
     
     return true;
 }
