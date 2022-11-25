@@ -40,7 +40,7 @@ enum SupportEntropyBits
 #define MAX_PASSPHRASE_SIZE (128 * 4)
 #define MAX_SLIP39_SEED_SIZE 32
 #define MAX_RSA_KEYPAIR 1536
-#define MAX_RSA_N_D_SIZE 512
+#define MAX_RSA_STORAGE_SIZE 512
 
 typedef struct mnemonic_s
 {

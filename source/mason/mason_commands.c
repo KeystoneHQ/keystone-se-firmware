@@ -1900,6 +1900,10 @@ static void mason_cmd0305_get_key(void *pContext)
 
 		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_MASTER_SEED))
 		{
+			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+			{
+				break;
+			}
 			if (!mason_pri_path_get_master_seed(&seed)) 
 			{
 				emRet = ERT_GetMasterSeedFail;
@@ -1912,7 +1916,11 @@ static void mason_cmd0305_get_key(void *pContext)
 		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_RSA_KEY_PAIR))
 		{
 			uint8_t rsa_key_pair[MAX_RSA_KEYPAIR] = { 0 };
-			
+
+			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+			{
+				break;
+			}
 			if (!mason_read_rsa_keypair(rsa_key_pair))
 			{
 				emRet = RET_ReadRSAkeyFail;

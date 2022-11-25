@@ -300,22 +300,22 @@ bool mason_read_rsa_keypair(uint8_t* key)
     {
         return false;
     }
-    uint8_t keypair[MAX_RSA_N_D_SIZE] = { 0 };
-    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_N_D_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
+    uint8_t keypair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
         return false;
     }
-    memcpy(key, keypair, MAX_RSA_N_D_SIZE);
-    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
+    memcpy(key, keypair, MAX_RSA_STORAGE_SIZE);
+    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
     {
         return false;
     }
-    memcpy(key + MAX_RSA_N_D_SIZE, keypair, MAX_RSA_N_D_SIZE);
-    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
+    memcpy(key + MAX_RSA_STORAGE_SIZE, keypair, MAX_RSA_STORAGE_SIZE);
+    if (ERT_OK != mason_storage_read(keypair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
     {
         return false;
     }
-    memcpy(key + 2 * MAX_RSA_N_D_SIZE, keypair, MAX_RSA_N_D_SIZE);
+    memcpy(key + 2 * MAX_RSA_STORAGE_SIZE, keypair, MAX_RSA_STORAGE_SIZE);
     
     return true;
 }
@@ -327,19 +327,19 @@ bool mason_read_rsa_keypair(uint8_t* key)
  */
 bool mason_write_rsa_keypair(uint8_t* key)
 {
-    uint8_t key_pair[MAX_RSA_N_D_SIZE] = { 0 };
-    memcpy(key_pair, key, MAX_RSA_N_D_SIZE);
-    if (!mason_storage_write_buffer(key_pair, MAX_RSA_N_D_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    memcpy(key_pair, key, MAX_RSA_STORAGE_SIZE);
+    if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
         return false;
     }
-    memcpy(key_pair, key + MAX_RSA_N_D_SIZE, MAX_RSA_N_D_SIZE);
-    if (!mason_storage_write_buffer(key_pair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
+    memcpy(key_pair, key + MAX_RSA_STORAGE_SIZE, MAX_RSA_STORAGE_SIZE);
+    if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
     {
         return false;
     }
-    memcpy(key_pair, key + 2 * MAX_RSA_N_D_SIZE, MAX_RSA_N_D_SIZE);
-    if (!mason_storage_write_buffer(key_pair, MAX_RSA_N_D_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
+    memcpy(key_pair, key + 2 * MAX_RSA_STORAGE_SIZE, MAX_RSA_STORAGE_SIZE);
+    if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
     {
         return false;
     }
@@ -698,6 +698,7 @@ bool mason_delete_wallet(void)
     wallet_seed_t seedFromEntropy = {0};
     wallet_slip39_master_seed_t slip39_m_seed = {0};
     wallet_seed_t slip39_d_seed = {0};
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
     bool is_succeed = false;
 
     is_succeed = mason_storage_write_buffer((uint8_t *)&mnemonic_data, sizeof(mnemonic_t), FLASH_ADDR_MNEMONIC);
@@ -731,6 +732,24 @@ bool mason_delete_wallet(void)
     }
 
     is_succeed = mason_storage_write_buffer((uint8_t *)&slip39_d_seed, sizeof(wallet_seed_t), FLASH_ADDR_SLIP39_DEC_SEED);
+    if (!is_succeed)
+    {
+        return false;
+    }
+
+    is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q);
+    if (!is_succeed)
+    {
+        return false;
+    }
+
+    is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D);
+    if (!is_succeed)
+    {
+        return false;
+    }
+
+    is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N);
     if (!is_succeed)
     {
         return false;
