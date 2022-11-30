@@ -1909,6 +1909,7 @@ static void mason_cmd0305_get_key(void *pContext)
 				emRet = ERT_GetMasterSeedFail;
 				break;
 			}
+			emRet = ERT_OK;
 			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_SEED_DATA, seed.length, seed.data);
 			break;
 		}
@@ -1926,7 +1927,7 @@ static void mason_cmd0305_get_key(void *pContext)
 				emRet = RET_ReadRSAkeyFail;
 				break;
 			}
-			
+			emRet = ERT_OK;
 			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_RSA_KEYPAIR, MAX_RSA_KEYPAIR, rsa_key_pair);
 			break;
 		}
