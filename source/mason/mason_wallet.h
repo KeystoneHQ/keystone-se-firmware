@@ -39,6 +39,8 @@ enum SupportEntropyBits
 #define MAX_HDPATH_SIZE 121
 #define MAX_PASSPHRASE_SIZE (128 * 4)
 #define MAX_SLIP39_SEED_SIZE 32
+#define MAX_RSA_KEYPAIR 1536
+#define MAX_RSA_STORAGE_SIZE 512
 
 typedef struct mnemonic_s
 {
@@ -95,7 +97,8 @@ bool mason_delete_wallet(void);
 bool mason_seedFromEntropy_read(wallet_seed_t *seed);
 bool mason_slip39_master_seed_read(wallet_slip39_master_seed_t *seed);
 bool mason_slip39_dec_seed_read(wallet_seed_t *seed);
-
+bool mason_read_rsa_keypair(uint8_t* key);
+bool mason_write_rsa_keypair(uint8_t* key);
 bool mason_update_key_load(update_key_t *update_key);
 bool mason_update_key_save(const update_key_t *update_key);
 bool mason_wallet_path_is_pub(char *string, uint16_t len);
@@ -106,7 +109,7 @@ bool mason_valid_wallet_path(wallet_path_t *wallet_path);
 
 emRetType mason_verify_mnemonic(char *mnemonic_str, uint16_t len);
 emRetType mason_verify_slip39_seed(uint8_t *slip39_seed_data, uint16_t slip39_seed_len, uint16_t slip39_id);
-
+bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data);
 bool mason_bip32_generate_master_key_from_root_seed(
     crypto_curve_t curve_type,
     private_key_t *private_key,

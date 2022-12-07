@@ -99,6 +99,9 @@ extern "C"
 		ERT_SNConflict,
 		ERT_SNLenInvalid,
 		ERT_SNInvalid,
+		ERT_GetMasterSeedFail,
+		ERT_WriteRSAkeyFail,
+		RET_ReadRSAkeyFail,
 
 		ERT_IAP_FAIL = 0x0600,
 		ERT_FWUpdateFail,

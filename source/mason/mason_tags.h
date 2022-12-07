@@ -84,6 +84,10 @@ extern "C"
 #define TLV_T_MASTER_KEY_FP				0x020B
 #define TLV_T_SECURITY_SWITCH			0x020F
 #define TLV_T_HDW_SWITCH			    0x0210
+#define TLV_T_SEED_DATA                 0x0211
+#define TLV_T_RSA_KEYPAIR               0x0212
+#define TLV_T_REQ_RSA_KEY_PAIR          0x0216
+#define TLV_T_REQ_MASTER_SEED           0x0217
 
 #define TLV_T_DES_KEY					0x0301
 #define TLV_T_PRVKEY					0x0302
