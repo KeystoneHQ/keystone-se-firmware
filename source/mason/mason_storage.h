@@ -116,6 +116,9 @@ extern "C"
 #define FLASH_ADDR_USRSETTINGS              (FLASH_ADDR_USRPWD_COUNT+USRPWD_COUNT_SIZE)
 #define USRSETTINGS_SIZE                    44
 
+#define FLASH_ADDR_RSA_KEYPAIR_ENABLE       (FLASH_ADDR_USRSETTINGS+USRSETTINGS_SIZE)
+#define RSA_KEYPAIR_ENABLE_SIZE             4    
+
 // 0x39400 rsa keypair p and q -- 1 page
 #define FLSAH_ADDR_RSA_KEYPAIR_P_Q            (FLASH_ADDR_USRDATA_START+PAGE_SIZE)
 // 0x39600 rsa keypair n -- 1 page
