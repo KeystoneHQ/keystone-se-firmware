@@ -152,15 +152,6 @@ bool ecdsa_sign_once(crypto_curve_t curve, uint8_t *hash, uint16_t hash_len, uin
 			private_key,
 			signature);
 	}
-	case CRYPTO_CURVE_SECP256R1:
-	{
-		*signature_len = 64;
-		return secp256r1_ecdsa_sign(
-			hash,
-			hash_len,
-			private_key,
-			signature);
-	}
 	case CRYPTO_CURVE_ED25519:
 	{
 		uint8_t public_key[32];
