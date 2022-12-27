@@ -345,7 +345,7 @@ bool mason_write_rsa_keypair(uint8_t* key)
         return false;
     }
     
-    mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST)
+    mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST);
     return true;
 }
 /**
@@ -757,7 +757,7 @@ bool mason_delete_wallet(void)
         return false;
     }
 
-    is_succeed = mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, key_pair_flag)
+    is_succeed = mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, key_pair_flag);
     if (!is_succeed)
     {
         return false;

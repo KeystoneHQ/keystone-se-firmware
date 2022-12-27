@@ -331,9 +331,9 @@ int main(void)
 	crypto_init();
 
 #if VER_REL
-	printf("Mason startup.\r\n");
+	// printf("Mason startup.\r\n");
 #else
-	printf("Mason Develop Mode, startup.\r\n");
+	// printf("Mason Develop Mode, startup.\r\n");
 #endif
 
 	mason_init();
