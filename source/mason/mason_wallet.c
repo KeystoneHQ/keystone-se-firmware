@@ -32,7 +32,7 @@ in the file COPYING.  If not, see <http://www.gnu.org/licenses/>.
 wallet_seed_t passphrase_seed = {0};
 wallet_seed_t passphrase_seedFromEntropy = {0};
 wallet_seed_t passphrase_slip39_seed = {0};
-int keypair_already = 0; //1:write keypair success
+
 
 /** Function declarations */
 static bool mason_wallet_setup(mnemonic_t *mnemonic, entropy_t *entropy, uint8_t *passphrase, uint16_t passphrase_len, wallet_seed_t *seed, wallet_seed_t *seedFromEntropy);
@@ -296,7 +296,8 @@ static bool mason_slip39_dec_seed_write(wallet_seed_t *seed)
  */
 bool mason_read_rsa_keypair(uint8_t* key)
 {
-    if (keypair_already != 1) 
+    
+    if (!mason_storage_check_flag(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST)) 
     {
         return false;
     }
@@ -344,7 +345,7 @@ bool mason_write_rsa_keypair(uint8_t* key)
         return false;
     }
     
-    keypair_already = 1;
+    mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST)
     return true;
 }
 /**
@@ -699,6 +700,7 @@ bool mason_delete_wallet(void)
     wallet_slip39_master_seed_t slip39_m_seed = {0};
     wallet_seed_t slip39_d_seed = {0};
     uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    uint32_t key_pair_flag = 0;
     bool is_succeed = false;
 
     is_succeed = mason_storage_write_buffer((uint8_t *)&mnemonic_data, sizeof(mnemonic_t), FLASH_ADDR_MNEMONIC);
@@ -750,6 +752,12 @@ bool mason_delete_wallet(void)
     }
 
     is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N);
+    if (!is_succeed)
+    {
+        return false;
+    }
+
+    is_succeed = mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, key_pair_flag)
     if (!is_succeed)
     {
         return false;
