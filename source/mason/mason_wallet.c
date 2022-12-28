@@ -317,24 +317,15 @@ bool mason_read_rsa_keypair(uint8_t* key)
  */
 bool mason_write_rsa_keypair(uint8_t* key)
 {
-    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
-    memcpy(key_pair, key, MAX_RSA_STORAGE_SIZE);
-    if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
-    {
-        return false;
+    for(uint8_t i = 0; i < 3; i++){
+        uint8_t data_buffer[MAX_RSA_STORAGE_SIZE] = { 0 };
+        memcpy(data_buffer, key + i * MAX_RSA_STORAGE_SIZE, MAX_RSA_STORAGE_SIZE);    
+        if (!mason_storage_write_buffer(data_buffer, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q + i * MAX_RSA_STORAGE_SIZE))
+        {
+            return false;
+        }
+        memset(&data_buffer, 0, MAX_RSA_STORAGE_SIZE);
     }
-    memcpy(key_pair, key + MAX_RSA_STORAGE_SIZE, MAX_RSA_STORAGE_SIZE);
-    if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
-    {
-        return false;
-    }
-    memcpy(key_pair, key + 2 * MAX_RSA_STORAGE_SIZE, MAX_RSA_STORAGE_SIZE);
-    if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
-    {
-        return false;
-    }
-    
-    mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST);
     return true;
 }
 /**
