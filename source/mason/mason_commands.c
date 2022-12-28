@@ -1898,38 +1898,35 @@ static void mason_cmd0305_get_key(void *pContext)
 			break;
 		}
 
-		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_MASTER_SEED))
+		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_MASTER_SEED) || stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_RSA_KEY_PAIR))
 		{
 			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
 			{
 				break;
 			}
-			if (!mason_pri_path_get_master_seed(&seed)) 
-			{
-				emRet = ERT_GetMasterSeedFail;
-				break;
-			}
 			emRet = ERT_OK;
-			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_SEED_DATA, seed.length, seed.data);
-			break;
-		}
-
-		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_RSA_KEY_PAIR))
-		{
-			uint8_t rsa_key_pair[MAX_RSA_KEYPAIR] = { 0 };
-
-			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+			if (TLV_T_REQ_MASTER_SEED == pstTLV->T)
 			{
+				if (!mason_pri_path_get_master_seed(&seed)) 
+				{
+					emRet = ERT_GetMasterSeedFail;
+					break;
+				}
+				mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_SEED_DATA, seed.length, seed.data);
 				break;
 			}
-			if (!mason_read_rsa_keypair(rsa_key_pair))
+
+			if(TLV_T_REQ_RSA_KEY_PAIR == pstTLV->T)
 			{
-				emRet = RET_ReadRSAkeyFail;
+				uint8_t rsa_key_pair[MAX_RSA_KEYPAIR] = { 0 };
+				if (!mason_read_rsa_keypair(rsa_key_pair))
+				{
+					emRet = RET_ReadRSAkeyFail;
+					break;
+				}
+				mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_RSA_KEYPAIR, MAX_RSA_KEYPAIR, rsa_key_pair);
 				break;
 			}
-			emRet = ERT_OK;
-			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_RSA_KEYPAIR, MAX_RSA_KEYPAIR, rsa_key_pair);
-			break;
 		}
 
 		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_CURVE_TYPE) && ((1 == pstTLV->L)))

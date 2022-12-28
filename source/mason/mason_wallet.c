@@ -957,7 +957,7 @@ bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data) {
         // PASSPHRASE bip39 seed
         memcpy(&seed_tmp, &passphrase_seed, sizeof(wallet_seed_t));
     }
-    else if (mason_slip39_dec_seed_read(&seed))
+    else if (mason_slip39_dec_seed_read(&seed_tmp))
     {
         // MNEMONIC slip39 seed
     }
