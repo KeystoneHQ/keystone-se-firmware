@@ -1169,12 +1169,6 @@ bool mason_webauth_key_delete(void)
     bool is_succeed = false;
     uint8_t auth_key[RSA_KEY_LEN] = {0};
 
-    is_succeed = mason_storage_write_buffer(auth_key, RSA_KEY_LEN, FLASH_ADDR_RSA_PRIKEY_N_512B);
-    if (!is_succeed)
-    {
-        return false;
-    }
-
     is_succeed = mason_storage_write_buffer(auth_key, RSA_KEY_LEN, FLASH_ADDR_RSA_PRIKEY_D_512B);
     if (!is_succeed)
     {
