@@ -975,23 +975,23 @@ emRetType mason_verify_slip39_seed(uint8_t *slip39_seed_data, uint16_t slip39_se
  * @return:
  */
 bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data) {
-    wallet_seed_t seed = { 0 };
+    wallet_seed_t seed_tmp = { 0 };
 
     if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (passphrase_slip39_seed.length))
     {
         // PASSPHRASE slip39 seed
-        memcpy(&seed, &passphrase_slip39_seed, sizeof(wallet_seed_t));
+        memcpy(&seed_tmp, &passphrase_slip39_seed, sizeof(wallet_seed_t));
     }
     else if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (SHA512_LEN == passphrase_seed.length))
     {
         // PASSPHRASE bip39 seed
-        memcpy(&seed, &passphrase_seed, sizeof(wallet_seed_t));
+        memcpy(&seed_tmp, &passphrase_seed, sizeof(wallet_seed_t));
     }
     else if (mason_slip39_dec_seed_read(&seed))
     {
         // MNEMONIC slip39 seed
     }
-    else if (mason_seed_read(&seed) && (SHA512_LEN == seed.length))
+    else if (mason_seed_read(&seed_tmp) && (SHA512_LEN == seed_tmp.length))
     {
         // MNEMONIC bip39 seed
     }
@@ -1000,8 +1000,9 @@ bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data) {
         return false;
     }
 
-    memcpy(seed_data->data, seed.data, seed.length);
-    seed_data->length = seed.length;
+    memcpy(seed_data->data, seed_tmp.data, seed_tmp.length);
+    seed_data->length = seed_tmp.length;
+    memset(&seed_tmp, 0, sizeof(wallet_seed_t));
     return true;
 }
 /**
@@ -1040,26 +1041,8 @@ bool mason_bip32_generate_master_key_from_root_seed(
 
     key_len = strlen((char *)key);
 
-    if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (passphrase_slip39_seed.length))
-    {
-        // PASSPHRASE slip39 seed
-        memcpy(&seed, &passphrase_slip39_seed, sizeof(wallet_seed_t));
-    }
-    else if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (SHA512_LEN == passphrase_seed.length))
-    {
-        // PASSPHRASE bip39 seed
-        memcpy(&seed, &passphrase_seed, sizeof(wallet_seed_t));
-    }
-    else if (mason_slip39_dec_seed_read(&seed))
-    {
-        // MNEMONIC slip39 seed
-    }
-    else if (mason_seed_read(&seed) && (SHA512_LEN == seed.length))
-    {
-        // MNEMONIC bip39 seed
-    }
-    else
-    {
+
+    if(!mason_pri_path_get_master_seed(&seed)){
         return false;
     }
 
