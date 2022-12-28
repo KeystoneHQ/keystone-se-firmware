@@ -296,28 +296,17 @@ static bool mason_slip39_dec_seed_write(wallet_seed_t *seed)
  */
 bool mason_read_rsa_keypair(uint8_t* key)
 {
-    
     if (!mason_storage_check_flag(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST)) 
     {
         return false;
     }
-    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
-    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE * 3] = { 0 };
+    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE * 3, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
         return false;
     }
-    memcpy(key, key_pair, MAX_RSA_STORAGE_SIZE);
-    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D))
-    {
-        return false;
-    }
-    memcpy(key + MAX_RSA_STORAGE_SIZE, key_pair, MAX_RSA_STORAGE_SIZE);
-    if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N))
-    {
-        return false;
-    }
-    memcpy(key + 2 * MAX_RSA_STORAGE_SIZE, key_pair, MAX_RSA_STORAGE_SIZE);
-    
+    memcpy(key, key_pair, MAX_RSA_STORAGE_SIZE * 3);
+    memset(&key_pair, 0, MAX_RSA_STORAGE_SIZE * 3);
     return true;
 }
 /**
