@@ -1898,13 +1898,13 @@ static void mason_cmd0305_get_key(void *pContext)
 			break;
 		}
 
+		emRet = ERT_OK;
 		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_MASTER_SEED) || stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_RSA_KEY_PAIR))
 		{
 			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
 			{
 				break;
 			}
-			emRet = ERT_OK;
 			if (TLV_T_REQ_MASTER_SEED == pstTLV->T)
 			{
 				if (!mason_pri_path_get_master_seed(&seed)) 
@@ -1951,12 +1951,9 @@ static void mason_cmd0305_get_key(void *pContext)
 				emRet = ERT_HDPathIllegal;
 				break;
 			}
-			if (!mason_wallet_path_is_pub(path_string, path_len))
-			{
-				if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
-				{
-					break;
-				}
+			if (!mason_wallet_path_is_pub(path_string, path_len) && (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV))))
+  			{
+				break;
 			}
 			if (!mason_bip32_derive_keys(&wallet_path, curve_type, &derived_private_key, &derived_chaincode, &extended_public_key))
 			{
@@ -1965,7 +1962,6 @@ static void mason_cmd0305_get_key(void *pContext)
 			}
 		}
 
-		emRet = ERT_OK;
 		b58enc(base58_ext_key, &base58_ext_key_len, (uint8_t *)&extended_public_key, sizeof(extended_public_key));
 		base58_ext_key[base58_ext_key_len] = 0;
 		mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_EXT_KEY, base58_ext_key_len - 1, (uint8_t *)base58_ext_key);

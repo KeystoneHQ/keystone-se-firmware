@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 4.1 [Build 481]: Last Updated: Tue Mar 09 18:27:23 2021
+;#<FEEDBACK># ARM Linker, 4.1 [Build 481]: Last Updated: Wed Dec 28 12:45:01 2022
 ;VERSION 0.2
 ;FILE base58.o
 __asm___8_base58_c_d7aa15c2____REV16 <= USED 0
@@ -118,7 +118,6 @@ mason_usrcount_delete <= USED 0
 ;FILE mason_storage.o
 __asm___15_mason_storage_c_a703afb9____REV16 <= USED 0
 __asm___15_mason_storage_c_a703afb9____REVSH <= USED 0
-mason_storage_check_flag <= USED 0
 mason_storage_read_flag <= USED 0
 mason_storage_write_flag <= USED 0
 ;FILE mason_wallet.o
@@ -233,6 +232,7 @@ timer_set_us <= USED 0
 ;FILE uart.o
 __asm___6_uart_c_2ecca21a____REV16 <= USED 0
 __asm___6_uart_c_2ecca21a____REVSH <= USED 0
+fputc <= USED 0
 ;FILE util.o
 __asm___6_util_c_f9ead7b0____REV16 <= USED 0
 __asm___6_util_c_f9ead7b0____REVSH <= USED 0
