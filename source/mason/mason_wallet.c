@@ -719,22 +719,12 @@ bool mason_delete_wallet(void)
         return false;
     }
 
-    is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q);
-    if (!is_succeed)
-    {
-        return false;
-    }
-
-    is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_D);
-    if (!is_succeed)
-    {
-        return false;
-    }
-
-    is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLASH_ADDR_RSA_KEYPAIR_N);
-    if (!is_succeed)
-    {
-        return false;
+    for(uint8_t i = 0; i < 3; i++) {
+        is_succeed = mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q + i * MAX_RSA_STORAGE_SIZE);
+        if (!is_succeed)
+        {
+            return false;
+        }
     }
 
     is_succeed = mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, key_pair_flag);
