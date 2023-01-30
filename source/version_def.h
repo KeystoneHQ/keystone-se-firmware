@@ -41,8 +41,8 @@ extern "C"
 /** Macro definitions*/
 #define VER_REL 1 // 0 -- develop mode , 1 -- release mode
 
-#define VER_Major 1
-#define VER_Minor 1
+#define VER_Major 2
+#define VER_Minor 0
 #define VER_Release 0
 #define VER_Build 00000
 
