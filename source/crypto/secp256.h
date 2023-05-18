@@ -42,16 +42,6 @@ bool secp256k1_ecdsa_verify(
 void secp256r1_init(void);
 bool secp256r1_private_key_to_public_key(uint8_t *private_key, uint8_t *public_key_x, uint8_t *public_key_y);
 void secp256r1_add_mod(uint8_t *a, uint8_t *b, uint8_t *output);
-bool secp256r1_generate_valid_key(
-    uint8_t *i_left,
-    uint8_t *parent_private_key,
-    uint8_t *result_key);
-
-bool secp256r1_ecdsa_sign(
-    uint8_t *hash,
-    uint16_t hash_len,
-    uint8_t *key,
-    uint8_t *signature);
 bool secp256r1_ecdsa_verify(
     uint8_t *hash,
     uint8_t *public_key,

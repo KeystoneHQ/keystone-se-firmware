@@ -93,16 +93,6 @@ bool ckd_private_to_private(
             }
             break;
         }
-        case CRYPTO_CURVE_SECP256R1:
-        {
-            if (!secp256r1_generate_valid_key(i_left, parent_private_key->data, derived_private_key))
-            {
-                data[0] = 0x01;
-                memcpy(data + 1, i_right, PRIVATE_KEY_LEN);
-                continue;
-            }
-            break;
-        }
         default:
         {
             return false;

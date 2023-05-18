@@ -231,42 +231,6 @@ bool secp256k1_generate_valid_key(
 
     return true;
 }
-/**
- * @functionname: secp256r1_generate_valid_key
- * @description: 
- * @para: 
- * @return: 
- */
-bool secp256r1_generate_valid_key(
-    uint8_t *i_left,
-    uint8_t *parent_private_key,
-    uint8_t *result_key)
-{
-    uint8_t zero_buf[SECP256R1_CURVE_LENGTH * 4] = {0};
-    uint8_t secp256r1_n[SECP256R1_CURVE_LENGTH * 4] = {0};
-
-    ecc_utils_ecc_array_to_buffer(SECP256R1_N, SECP256R1_CURVE_LENGTH, secp256r1_n);
-
-    if (memcmp(i_left, secp256r1_n, SECP256R1_CURVE_LENGTH * 4) >= 0)
-    {
-        return false;
-    }
-
-    secp256r1_add_mod(i_left, parent_private_key, result_key);
-
-    if (memcmp(result_key, zero_buf, SECP256R1_CURVE_LENGTH * 4) == 0)
-    {
-        return false;
-    }
-
-    return true;
-}
-/**
- * @functionname: secp256k1_ecdsa_sign
- * @description: 
- * @para: 
- * @return: 
- */
 bool secp256k1_ecdsa_sign(
     uint8_t *hash,
     uint16_t hash_len,
@@ -334,47 +298,6 @@ bool secp256k1_ecdsa_verify(
                     ecc_public_key_y,
                     ecc_signature_r,
                     ecc_signature_s);
-}
-/**
- * @functionname: secp256r1_ecdsa_sign
- * @description: 
- * @para: 
- * @return: 
- */
-bool secp256r1_ecdsa_sign(
-    uint8_t *hash,
-    uint16_t hash_len,
-    uint8_t *key,
-    uint8_t *signature)
-{
-    uint32_t ecc_hash[SECP256R1_CURVE_LENGTH] = {0};
-    uint32_t ecc_key[SECP256R1_CURVE_LENGTH] = {0};
-    uint32_t ecc_signature_r[SECP256R1_CURVE_LENGTH] = {0};
-    uint32_t ecc_signature_s[SECP256R1_CURVE_LENGTH] = {0};
-
-    NN_AssignZero(ecc_signature_r, SECP256R1_CURVE_LENGTH);
-    NN_AssignZero(ecc_signature_s, SECP256R1_CURVE_LENGTH);
-
-    ecc_utils_buffer_to_ecc_array(hash, ecc_hash, SECP256R1_CURVE_LENGTH);
-    ecc_utils_buffer_to_ecc_array(key, ecc_key, SECP256R1_CURVE_LENGTH);
-
-    enable_module(BIT_PKI);
-    if (ECDSA_sign(
-            &secp256r1_ecc_g_str,
-            &secp256r1_math_g_str,
-            ecc_hash,
-            ecc_key,
-            ecc_signature_r,
-            ecc_signature_s))
-    {
-        //printf("SIGNED FAILED\n");
-        return false;
-    }
-
-    ecc_utils_ecc_array_to_buffer(ecc_signature_r, SECP256R1_CURVE_LENGTH, signature);
-    ecc_utils_ecc_array_to_buffer(ecc_signature_s, SECP256R1_CURVE_LENGTH, signature + sizeof(ecc_signature_r));
-
-    return true;
 }
 /**
  * @functionname: secp256r1_ecdsa_verify
