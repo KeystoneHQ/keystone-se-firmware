@@ -88,6 +88,8 @@ extern "C"
 #define TLV_T_RSA_KEYPAIR               0x0212
 #define TLV_T_REQ_RSA_KEY_PAIR          0x0216
 #define TLV_T_REQ_MASTER_SEED           0x0217
+#define TLV_T_REQ_ENTROPY               0x0218
+#define TLV_T_ENTROPY_DATA              0x0219
 
 #define TLV_T_DES_KEY					0x0301
 #define TLV_T_PRVKEY					0x0302

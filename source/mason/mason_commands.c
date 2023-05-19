@@ -1862,6 +1862,7 @@ static void mason_cmd0305_get_key(void *pContext)
 	size_t base58_ext_key_len = 256;
 	uint8_t switchtype = (uint8_t)gemHDWSwitch;
 	wallet_seed_t seed = { 0 };
+	entropy_t entropy = { 0 };
 
 	mason_cmd_init_outputTLVArray(&stStack);
 
@@ -1895,6 +1896,22 @@ static void mason_cmd0305_get_key(void *pContext)
 		if ((0 == path_len) || (path_len > MAX_HDPATH_SIZE))
 		{
 			emRet = ERT_HDPathIllegal;
+			break;
+		}
+
+		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_ENTROPY))
+		{
+			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+			{
+				break;
+			}
+			if (!mason_read_entropy(&entropy)) 
+			{
+				emRet = ERT_GETEntropyFail;
+				break;
+			}
+			emRet = ERT_OK;
+			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_ENTROPY_DATA, entropy.size, entropy.data);
 			break;
 		}
 

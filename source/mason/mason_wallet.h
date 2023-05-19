@@ -94,6 +94,7 @@ bool mason_create_bip39_wallet(uint8_t *mnemonic, uint16_t mnemonic_len, uint8_t
 bool mason_create_slip39_wallet(uint8_t *slip39_seed_data, uint16_t slip39_seed_len, uint16_t slip39_id, uint8_t slip39_e);
 bool mason_change_wallet_passphrase(uint8_t *passphrase, uint16_t passphrase_len);
 bool mason_delete_wallet(void);
+bool mason_read_entropy(entropy_t *entropy);
 
 bool mason_seedFromEntropy_read(wallet_seed_t *seed);
 bool mason_slip39_master_seed_read(wallet_slip39_master_seed_t *seed);

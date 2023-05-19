@@ -1241,3 +1241,7 @@ bool mason_webauth_key_delete(void)
 
     return is_succeed;
 }
+
+bool mason_read_entropy(entropy_t *entropy) {
+    return mason_entropy_read(entropy);
+}

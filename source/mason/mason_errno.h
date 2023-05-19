@@ -102,6 +102,7 @@ extern "C"
 		ERT_GetMasterSeedFail,
 		ERT_WriteRSAkeyFail,
 		RET_ReadRSAkeyFail,
+		ERT_GETEntropyFail,
 
 		ERT_IAP_FAIL = 0x0600,
 		ERT_FWUpdateFail,
