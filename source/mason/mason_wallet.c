@@ -329,7 +329,6 @@ bool mason_read_rsa_keypair(uint8_t* key)
 bool mason_write_rsa_keypair(uint8_t* key)
 {
     uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
-    uint8_t key_pair_flag[4] = {0x2D, 0xCE, 0x10, 0x97 };
     memcpy(key_pair, key, MAX_RSA_STORAGE_SIZE);
     if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
@@ -345,8 +344,12 @@ bool mason_write_rsa_keypair(uint8_t* key)
     {
         return false;
     }
+
+    if (ERT_OK != mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST))
+    {
+        return false;
+    }
     
-    mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST);
     return true;
 }
 /**
@@ -701,6 +704,7 @@ bool mason_delete_wallet(void)
     wallet_slip39_master_seed_t slip39_m_seed = {0};
     wallet_seed_t slip39_d_seed = {0};
     uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    uint32_t key_flag = 0;
     bool is_succeed = false;
 
     is_succeed = mason_storage_write_buffer((uint8_t *)&mnemonic_data, sizeof(mnemonic_t), FLASH_ADDR_MNEMONIC);
@@ -757,10 +761,7 @@ bool mason_delete_wallet(void)
         return false;
     }
 
-    uint8_t key_pair_flag[4] = {0x2D, 0xCE, 0x10, 0x97 };
-    mason_storage_write_buffer(key_pair_flag, 4, FLASH_ADDR_RSA_KEYPAIR_ENABLE);
-    is_succeed = mason_storage_check_flag(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST);
-    if (!is_succeed)
+    if (ERT_OK != mason_storage_write_flag_safe(FLASH_ADDR_RSA_KEYPAIR_ENABLE, key_flag))
     {
         return false;
     }
