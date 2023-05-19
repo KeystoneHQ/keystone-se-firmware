@@ -107,7 +107,7 @@ static void mason_cmd0A06_hash_test(void *pContext);
 
 MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX] =
 	{
-		{//01 XX
+		{// 01 XX
 		 {
 			 USER_ALL,
 			 mason_cmd_invalid,
@@ -140,7 +140,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd0108_reboot,
 		 }},
-		{//02 XX
+		{// 02 XX
 		 {
 			 USER_CHIP | USER_FACTORY | USER_EMPTY | USER_WALLET,
 			 mason_cmd0201_iap_request,
@@ -173,7 +173,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd_invalid,
 		 }},
-		{//03 XX
+		{// 03 XX
 		 {
 			 USER_CHIP | USER_FACTORY | USER_EMPTY | USER_WALLET,
 			 mason_cmd0301_get_entropy,
@@ -206,7 +206,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_WALLET,
 			 mason_cmd0308_get_masterkey_fingerprint,
 		 }},
-		{//04 XX
+		{// 04 XX
 		 {
 			 USER_ALL,
 #ifdef MASON_TEST
@@ -243,7 +243,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd_invalid,
 		 }},
-		{//05 XX
+		{// 05 XX
 		 {
 			 USER_ALL,
 			 mason_cmd_invalid,
@@ -276,7 +276,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd_invalid,
 		 }},
-		{//06 XX
+		{// 06 XX
 		 {
 			 USER_ALL,
 			 mason_cmd_invalid,
@@ -309,7 +309,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd_invalid,
 		 }},
-		{//07 XX
+		{// 07 XX
 		 {
 			 USER_CHIP | USER_FACTORY | USER_EMPTY | USER_WALLET,
 			 mason_cmd0701_web_authentication,
@@ -342,7 +342,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd_invalid,
 		 }},
-		{//08 XX
+		{// 08 XX
 		 {
 			 USER_ALL,
 			 mason_cmd_invalid,
@@ -375,7 +375,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_ALL,
 			 mason_cmd_invalid,
 		 }},
-		{//09 XX
+		{// 09 XX
 		 {
 			 USER_CHIP | USER_FACTORY | USER_EMPTY | USER_WALLET,
 			 mason_cmd0901_usrpwd_modify,
@@ -408,7 +408,7 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 			 USER_CHIP | USER_FACTORY | USER_EMPTY | USER_WALLET,
 			 mason_cmd0908_token_delete,
 		 }},
-		{//0A XX
+		{// 0A XX
 		 {
 			 USER_ALL,
 #ifdef MASON_TEST
@@ -457,9 +457,9 @@ MASON_COMMANDS_EXT volatile stCmdHandlerType gstCmdHandlers[CMD_H_MAX][CMD_L_MAX
 /** Function implementations */
 /**
  * @functionname: stream_to_tlv
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 uint32_t stream_to_tlv(pstStackType pstStack, const char *stream, uint32_t streamLen)
 {
@@ -484,9 +484,9 @@ uint32_t stream_to_tlv(pstStackType pstStack, const char *stream, uint32_t strea
 }
 /**
  * @functionname: stack_search_by_tag
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool stack_search_by_tag(pstStackType pstStack, stackElementType *pelement, uint16_t T)
 {
@@ -507,9 +507,9 @@ bool stack_search_by_tag(pstStackType pstStack, stackElementType *pelement, uint
 }
 /**
  * @functionname: stack_search_CMDNo
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool stack_search_CMDNo(pstStackType pstStack, stackElementType *pelement, unCMDNoType *punCMDNo)
 {
@@ -524,9 +524,9 @@ bool stack_search_CMDNo(pstStackType pstStack, stackElementType *pelement, unCMD
 }
 /**
  * @functionname: mason_command_handler
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emCmdFSMType mason_command_handler(void)
 {
@@ -639,9 +639,9 @@ emCmdFSMType mason_command_handler(void)
 }
 /**
  * @functionname: mason_command_manager
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emCmdFSMType mason_command_manager(void)
 {
@@ -678,9 +678,9 @@ emCmdFSMType mason_command_manager(void)
 }
 /**
  * @functionname: mason_command_usr
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_command_usr(emHDWStatusType status, uint8_t usr)
 {
@@ -713,9 +713,9 @@ bool mason_command_usr(emHDWStatusType status, uint8_t usr)
 }
 /**
  * @functionname: mason_execute_cmd
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void mason_execute_cmd(pstStackType pstStack)
 {
@@ -747,9 +747,9 @@ void mason_execute_cmd(pstStackType pstStack)
 }
 /**
  * @functionname: mason_cmd_preprocess
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_preprocess(pstCMDType pstCMD)
 {
@@ -766,9 +766,9 @@ emRetType mason_cmd_preprocess(pstCMDType pstCMD)
 }
 /**
  * @functionname: mason_cmd_tlv_to_buf
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 uint16_t mason_cmd_tlv_to_buf(pstStackType pstStack, uint8_t *pBuf)
 {
@@ -793,9 +793,9 @@ uint16_t mason_cmd_tlv_to_buf(pstStackType pstStack, uint8_t *pBuf)
 }
 /**
  * @functionname: mason_cmd_init_outputTLVArray
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void mason_cmd_init_outputTLVArray(pstStackType pstStack)
 {
@@ -803,9 +803,9 @@ void mason_cmd_init_outputTLVArray(pstStackType pstStack)
 }
 /**
  * @functionname: mason_cmd_append_to_outputTLVArray
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_append_to_outputTLVArray(pstStackType pstStack, uint16_t tag, uint16_t len, uint8_t *pValue)
 {
@@ -817,7 +817,7 @@ emRetType mason_cmd_append_to_outputTLVArray(pstStackType pstStack, uint16_t tag
 
 	if (pstTLV == NULL)
 	{
-		//printf("Calloc failed %02X %u\n", tag, (uint32_t)sizeof(stTLVType));
+		// printf("Calloc failed %02X %u\n", tag, (uint32_t)sizeof(stTLVType));
 		return ERT_MallocFail;
 	}
 
@@ -831,9 +831,9 @@ emRetType mason_cmd_append_to_outputTLVArray(pstStackType pstStack, uint16_t tag
 }
 /**
  * @functionname: mason_cmd_append_ele_to_outputTLVArray
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_append_ele_to_outputTLVArray(pstStackType pstStack, stackElementType element)
 {
@@ -845,7 +845,7 @@ emRetType mason_cmd_append_ele_to_outputTLVArray(pstStackType pstStack, stackEle
 
 	if (pstTLV == NULL)
 	{
-		//printf("Calloc failed\n");
+		// printf("Calloc failed\n");
 		return ERT_MallocFail;
 	}
 
@@ -859,9 +859,9 @@ emRetType mason_cmd_append_ele_to_outputTLVArray(pstStackType pstStack, stackEle
 }
 /**
  * @functionname: mason_cmd_end_outputTLVArray
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void mason_cmd_end_outputTLVArray(pstStackType pstStack, emEncryptType eEnc)
 {
@@ -914,9 +914,9 @@ void mason_cmd_end_outputTLVArray(pstStackType pstStack, emEncryptType eEnc)
 }
 /**
  * @functionname: mason_command_manage_error
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emCmdFSMType mason_command_manage_error(void)
 {
@@ -945,9 +945,9 @@ emCmdFSMType mason_command_manage_error(void)
 }
 /**
  * @functionname: mason_cmd_invalid
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void mason_cmd_invalid(void *pContext)
 {
@@ -963,9 +963,9 @@ void mason_cmd_invalid(void *pContext)
 }
 /**
  * @functionname: mason_cmd_verify_passwd
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_verify_passwd(pstStackType pstStack, stackElementType *pelement)
 {
@@ -997,7 +997,7 @@ emRetType mason_cmd_verify_passwd(pstStackType pstStack, stackElementType *pelem
 			break;
 		}
 		mason_usrcount_ara();
-		//sleep
+		// sleep
 		gen_random(&time, 8);
 		_delay_us(time * 2);
 
@@ -1031,9 +1031,9 @@ emRetType mason_cmd_verify_passwd(pstStackType pstStack, stackElementType *pelem
 }
 /**
  * @functionname: mason_cmd_verify_mnemonic
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_verify_mnemonic(pstStackType pstStack, stackElementType *pelement)
 {
@@ -1057,7 +1057,7 @@ emRetType mason_cmd_verify_mnemonic(pstStackType pstStack, stackElementType *pel
 			break;
 		}
 
-		//sleep
+		// sleep
 		gen_random(&time, 8);
 		_delay_us(time * 2);
 
@@ -1089,9 +1089,9 @@ emRetType mason_cmd_verify_mnemonic(pstStackType pstStack, stackElementType *pel
 }
 /**
  * @functionname: mason_cmd_verify_token
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_verify_token(pstStackType pstStack, stackElementType *pelement)
 {
@@ -1124,7 +1124,7 @@ emRetType mason_cmd_verify_token(pstStackType pstStack, stackElementType *peleme
 			break;
 		}
 
-		//sleep
+		// sleep
 		gen_random(&time, 8);
 		_delay_us(time * 2);
 
@@ -1166,9 +1166,9 @@ emRetType mason_cmd_verify_token(pstStackType pstStack, stackElementType *peleme
 }
 /**
  * @functionname: mason_cmd_verify_fing
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_verify_fing(pstStackType pstStack, stackElementType *pelement)
 {
@@ -1193,7 +1193,7 @@ emRetType mason_cmd_verify_fing(pstStackType pstStack, stackElementType *pelemen
 			break;
 		}
 
-		//sleep
+		// sleep
 		gen_random(&time, 8);
 		_delay_us(time * 2);
 
@@ -1227,9 +1227,9 @@ emRetType mason_cmd_verify_fing(pstStackType pstStack, stackElementType *pelemen
 }
 /**
  * @functionname: mason_cmd_verify_slip39_seed
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_cmd_verify_slip39_seed(pstStackType pstStack, stackElementType *pelement)
 {
@@ -1261,7 +1261,7 @@ emRetType mason_cmd_verify_slip39_seed(pstStackType pstStack, stackElementType *
 			break;
 		}
 
-		//sleep
+		// sleep
 		gen_random(&time, 8);
 		_delay_us(time * 2);
 
@@ -1301,9 +1301,9 @@ emRetType mason_cmd_verify_slip39_seed(pstStackType pstStack, stackElementType *
 }
 /**
  * @functionname: mason_cmd0102_get_information
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0102_get_information(void *pContext)
 {
@@ -1343,9 +1343,9 @@ static void mason_cmd0102_get_information(void *pContext)
 }
 /**
  * @functionname: mason_cmd0107_factory_activate
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0107_factory_activate(void *pContext)
 {
@@ -1388,9 +1388,9 @@ static void mason_cmd0107_factory_activate(void *pContext)
 }
 /**
  * @functionname: mason_cmd0108_reboot
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0108_reboot(void *pContext)
 {
@@ -1414,14 +1414,14 @@ static void mason_cmd0108_reboot(void *pContext)
 	{
 		_delay_ms(100);
 		wdt_stop();
-		REG_SCU_RCR &= 0x7FFF; //Soft Reset
+		REG_SCU_RCR &= 0x7FFF; // Soft Reset
 	}
 }
 /**
  * @functionname: mason_cmd0201_iap_request
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0201_iap_request(void *pContext)
 {
@@ -1472,9 +1472,9 @@ static void mason_cmd0201_iap_request(void *pContext)
 }
 /**
  * @functionname: mason_cmd0203_iap_verify
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0203_iap_verify(void *pContext)
 {
@@ -1570,16 +1570,16 @@ static void mason_cmd0203_iap_verify(void *pContext)
 	{
 		(void)mason_iap_set_app_not_exist();
 		_delay_ms(500);
-		//printf("\nClean App && Rebooting..\n");
+		// printf("\nClean App && Rebooting..\n");
 		wdt_stop();
-		REG_SCU_RCR &= 0x7FFF; //Soft Reset
+		REG_SCU_RCR &= 0x7FFF; // Soft Reset
 	}
 }
 /**
  * @functionname: mason_cmd0301_get_entropy
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0301_get_entropy(void *pContext)
 {
@@ -1642,9 +1642,9 @@ static void mason_cmd0301_get_entropy(void *pContext)
 }
 /**
  * @functionname: mason_cmd0302_create_wallet
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0302_create_wallet(void *pContext)
 {
@@ -1718,7 +1718,7 @@ static void mason_cmd0302_create_wallet(void *pContext)
 		}
 		else if (stack_search_by_tag(pstS, &pstTLV, TLV_T_RSA_KEYPAIR))
 		{
-			uint8_t* buff = (uint8_t*)pstTLV->pV;
+			uint8_t *buff = (uint8_t *)pstTLV->pV;
 
 			if (!mason_write_rsa_keypair(buff))
 			{
@@ -1753,9 +1753,9 @@ static void mason_cmd0302_create_wallet(void *pContext)
 }
 /**
  * @functionname: mason_cmd0303_change_wallet_passphrase
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0303_change_wallet_passphrase(void *pContext)
 {
@@ -1843,8 +1843,8 @@ static void mason_cmd0303_change_wallet_passphrase(void *pContext)
 /**
  * @functionname: mason_cmd0305_get_key
  * @description: command for get specific key by given hdpath and algorithm, user authentication needed for senstive information
- * @para: 
- * @return: 
+ * @para:
+ * @return:
  */
 static void mason_cmd0305_get_key(void *pContext)
 {
@@ -1861,7 +1861,7 @@ static void mason_cmd0305_get_key(void *pContext)
 	char base58_ext_key[256] = {0};
 	size_t base58_ext_key_len = 256;
 	uint8_t switchtype = (uint8_t)gemHDWSwitch;
-	wallet_seed_t seed = { 0 };
+	wallet_seed_t seed = {0};
 
 	mason_cmd_init_outputTLVArray(&stStack);
 
@@ -1904,7 +1904,7 @@ static void mason_cmd0305_get_key(void *pContext)
 			{
 				break;
 			}
-			if (!mason_pri_path_get_master_seed(&seed)) 
+			if (!mason_pri_path_get_master_seed(&seed))
 			{
 				emRet = ERT_GetMasterSeedFail;
 				break;
@@ -1916,7 +1916,7 @@ static void mason_cmd0305_get_key(void *pContext)
 
 		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_RSA_KEY_PAIR))
 		{
-			uint8_t rsa_key_pair[MAX_RSA_KEYPAIR] = { 0 };
+			uint8_t rsa_key_pair[MAX_RSA_KEYPAIR] = {0};
 
 			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
 			{
@@ -1980,9 +1980,9 @@ static void mason_cmd0305_get_key(void *pContext)
 }
 /**
  * @functionname: mason_cmd0306_delete_wallet
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0306_delete_wallet(void *pContext)
 {
@@ -2023,9 +2023,9 @@ static void mason_cmd0306_delete_wallet(void *pContext)
 }
 /**
  * @functionname: mason_cmd0307_sign
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0307_sign(void *pContext)
 {
@@ -2148,9 +2148,9 @@ static void mason_cmd0307_sign(void *pContext)
 }
 /**
  * @functionname: mason_cmd0308_get_masterkey_fingerprint
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0308_get_masterkey_fingerprint(void *pContext)
 {
@@ -2200,9 +2200,9 @@ static void mason_cmd0308_get_masterkey_fingerprint(void *pContext)
 #ifdef MASON_TEST
 /**
  * @functionname: mason_cmd0401_generate_public_key_from_private_key
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0401_generate_public_key_from_private_key(void *pContext)
 {
@@ -2244,9 +2244,9 @@ static void mason_cmd0401_generate_public_key_from_private_key(void *pContext)
 #endif
 /**
  * @functionname: mason_cmd0502_mnemonic_verify
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0502_mnemonic_verify(void *pContext)
 {
@@ -2281,9 +2281,9 @@ static void mason_cmd0502_mnemonic_verify(void *pContext)
 }
 /**
  * @functionname: mason_cmd0701_web_authentication
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0701_web_authentication(void *pContext)
 {
@@ -2361,9 +2361,9 @@ static void mason_cmd0701_web_authentication(void *pContext)
 }
 /**
  * @functionname: mason_cmd0802_tamper_test
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0802_tamper_test(void *pContext)
 {
@@ -2399,9 +2399,9 @@ static void mason_cmd0802_tamper_test(void *pContext)
 }
 /**
  * @functionname: mason_cmd0901_usrpwd_modify
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0901_usrpwd_modify(void *pContext)
 {
@@ -2457,9 +2457,9 @@ static void mason_cmd0901_usrpwd_modify(void *pContext)
 }
 /**
  * @functionname: mason_cmd0902_usrpwd_reset
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0902_usrpwd_reset(void *pContext)
 {
@@ -2484,7 +2484,7 @@ static void mason_cmd0902_usrpwd_reset(void *pContext)
 		mason_get_mode(&status);
 		if (E_HDWS_CHIP == status.emHDWStatus || E_HDWS_FACTORY == status.emHDWStatus || E_HDWS_EMPTY == status.emHDWStatus)
 		{
-			//allow to reset password
+			// allow to reset password
 			verify_emRet = ERT_Verify_Success;
 		}
 		else if (E_HDWS_WALLET == status.emHDWStatus)
@@ -2531,9 +2531,9 @@ static void mason_cmd0902_usrpwd_reset(void *pContext)
 }
 /**
  * @functionname: mason_cmd0903_usrpwd_verify
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0903_usrpwd_verify(void *pContext)
 {
@@ -2583,9 +2583,9 @@ static void mason_cmd0903_usrpwd_verify(void *pContext)
 }
 /**
  * @functionname: mason_cmd0904_usrsettings
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0904_usrsettings(void *pContext)
 {
@@ -2669,9 +2669,9 @@ static void mason_cmd0904_usrsettings(void *pContext)
 }
 /**
  * @functionname: mason_cmd0905_message_gen
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0905_message_gen(void *pContext)
 {
@@ -2699,9 +2699,9 @@ static void mason_cmd0905_message_gen(void *pContext)
 }
 /**
  * @functionname: mason_cmd0906_usrfing_create
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0906_usrfing_create(void *pContext)
 {
@@ -2757,9 +2757,9 @@ static void mason_cmd0906_usrfing_create(void *pContext)
 }
 /**
  * @functionname: mason_cmd0907_usrfing_verify
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0907_usrfing_verify(void *pContext)
 {
@@ -2816,9 +2816,9 @@ static void mason_cmd0907_usrfing_verify(void *pContext)
 }
 /**
  * @functionname: mason_cmd0908_token_delete
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0908_token_delete(void *pContext)
 {
@@ -2843,9 +2843,9 @@ static void mason_cmd0908_token_delete(void *pContext)
 #ifdef MASON_TEST
 /**
  * @functionname: mason_cmd0A01_crypto_sign_test
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0A01_crypto_sign_test(void *pContext)
 {
@@ -2908,9 +2908,9 @@ static void mason_cmd0A01_crypto_sign_test(void *pContext)
 }
 /**
  * @functionname: mason_cmd0A02_crypto_verify_test
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0A02_crypto_verify_test(void *pContext)
 {
@@ -2989,9 +2989,9 @@ static void mason_cmd0A02_crypto_verify_test(void *pContext)
 }
 /**
  * @functionname: mason_cmd0A06_hash_test
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void mason_cmd0A06_hash_test(void *pContext)
 {

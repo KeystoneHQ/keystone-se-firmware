@@ -33,7 +33,6 @@ wallet_seed_t passphrase_seed = {0};
 wallet_seed_t passphrase_seedFromEntropy = {0};
 wallet_seed_t passphrase_slip39_seed = {0};
 
-
 /** Function declarations */
 static bool mason_wallet_setup(mnemonic_t *mnemonic, entropy_t *entropy, uint8_t *passphrase, uint16_t passphrase_len, wallet_seed_t *seed, wallet_seed_t *seedFromEntropy);
 static bool mason_mnemonic_read(mnemonic_t *mnemonic);
@@ -48,9 +47,9 @@ static bool mason_seedFromEntropy_write(wallet_seed_t *seed);
 /** Function implementations */
 /**
  * @functionname: is_entropy_bits_support
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool is_entropy_bits_support(uint16_t bits)
 {
@@ -58,9 +57,9 @@ bool is_entropy_bits_support(uint16_t bits)
 }
 /**
  * @functionname: mason_generate_entropy
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_generate_entropy(uint8_t *output_entropy, uint16_t bits, bool need_checksum)
 {
@@ -92,9 +91,9 @@ bool mason_generate_entropy(uint8_t *output_entropy, uint16_t bits, bool need_ch
 }
 /**
  * @functionname: mason_mnemonic_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_mnemonic_read(mnemonic_t *mnemonic)
 {
@@ -113,9 +112,9 @@ static bool mason_mnemonic_read(mnemonic_t *mnemonic)
 }
 /**
  * @functionname: mason_mnemonic_write
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_mnemonic_write(mnemonic_t *mnemonic)
 {
@@ -125,9 +124,9 @@ static bool mason_mnemonic_write(mnemonic_t *mnemonic)
 }
 /**
  * @functionname: mason_entropy_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_entropy_read(entropy_t *entropy)
 {
@@ -146,9 +145,9 @@ static bool mason_entropy_read(entropy_t *entropy)
 }
 /**
  * @functionname: mason_entropy_write
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_entropy_write(entropy_t *entropy)
 {
@@ -158,9 +157,9 @@ static bool mason_entropy_write(entropy_t *entropy)
 }
 /**
  * @functionname: mason_seed_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_seed_read(wallet_seed_t *seed)
 {
@@ -179,9 +178,9 @@ static bool mason_seed_read(wallet_seed_t *seed)
 }
 /**
  * @functionname: mason_seed_write
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_seed_write(wallet_seed_t *seed)
 {
@@ -191,9 +190,9 @@ static bool mason_seed_write(wallet_seed_t *seed)
 }
 /**
  * @functionname: mason_seedFromEntropy_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_seedFromEntropy_read(wallet_seed_t *seed)
 {
@@ -212,9 +211,9 @@ bool mason_seedFromEntropy_read(wallet_seed_t *seed)
 }
 /**
  * @functionname: mason_seedFromEntropy_write
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_seedFromEntropy_write(wallet_seed_t *seed)
 {
@@ -224,9 +223,9 @@ static bool mason_seedFromEntropy_write(wallet_seed_t *seed)
 }
 /**
  * @functionname: mason_slip39_master_seed_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_slip39_master_seed_read(wallet_slip39_master_seed_t *seed)
 {
@@ -245,9 +244,9 @@ bool mason_slip39_master_seed_read(wallet_slip39_master_seed_t *seed)
 }
 /**
  * @functionname: mason_slip39_master_seed_write
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_slip39_master_seed_write(wallet_slip39_master_seed_t *seed)
 {
@@ -257,9 +256,9 @@ static bool mason_slip39_master_seed_write(wallet_slip39_master_seed_t *seed)
 }
 /**
  * @functionname: mason_slip39_dec_seed_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_slip39_dec_seed_read(wallet_seed_t *seed)
 {
@@ -278,9 +277,9 @@ bool mason_slip39_dec_seed_read(wallet_seed_t *seed)
 }
 /**
  * @functionname: mason_slip39_dec_seed_write
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_slip39_dec_seed_write(wallet_seed_t *seed)
 {
@@ -294,14 +293,14 @@ static bool mason_slip39_dec_seed_write(wallet_seed_t *seed)
  * @para:
  * @return:
  */
-bool mason_read_rsa_keypair(uint8_t* key)
+bool mason_read_rsa_keypair(uint8_t *key)
 {
-    
-    if (!mason_storage_check_flag(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST)) 
+
+    if (!mason_storage_check_flag(FLASH_ADDR_RSA_KEYPAIR_ENABLE, FLAG_RSA_KEYPAIR_EXIST))
     {
         return false;
     }
-    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = {0};
     if (ERT_OK != mason_storage_read(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
         return false;
@@ -317,7 +316,7 @@ bool mason_read_rsa_keypair(uint8_t* key)
         return false;
     }
     memcpy(key + 2 * MAX_RSA_STORAGE_SIZE, key_pair, MAX_RSA_STORAGE_SIZE);
-    
+
     return true;
 }
 /**
@@ -326,9 +325,9 @@ bool mason_read_rsa_keypair(uint8_t* key)
  * @para:
  * @return:
  */
-bool mason_write_rsa_keypair(uint8_t* key)
+bool mason_write_rsa_keypair(uint8_t *key)
 {
-    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = {0};
     memcpy(key_pair, key, MAX_RSA_STORAGE_SIZE);
     if (!mason_storage_write_buffer(key_pair, MAX_RSA_STORAGE_SIZE, FLSAH_ADDR_RSA_KEYPAIR_P_Q))
     {
@@ -349,14 +348,14 @@ bool mason_write_rsa_keypair(uint8_t* key)
     {
         return false;
     }
-    
+
     return true;
 }
 /**
  * @functionname: mason_create_bip39_wallet
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_create_bip39_wallet(uint8_t *mnemonic, uint16_t mnemonic_len, uint8_t *entropy, uint16_t entropy_len)
 {
@@ -441,9 +440,9 @@ bool mason_create_bip39_wallet(uint8_t *mnemonic, uint16_t mnemonic_len, uint8_t
 }
 /**
  * @functionname: mason_create_slip39_wallet
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_create_slip39_wallet(uint8_t *slip39_seed_data, uint16_t slip39_seed_len, uint16_t slip39_id, uint8_t slip39_e)
 {
@@ -464,7 +463,7 @@ bool mason_create_slip39_wallet(uint8_t *slip39_seed_data, uint16_t slip39_seed_
     slip39_m_seed.id = slip39_id;
     slip39_m_seed.data_size = slip39_seed_len;
 
-    //decrypt get slip39_dec_seed
+    // decrypt get slip39_dec_seed
     slip39_decrypt(slip39_seed_data, slip39_seed_len, NULL, slip39_e, slip39_id, slip39_d_seed.data);
     slip39_d_seed.length = slip39_seed_len;
 
@@ -518,9 +517,9 @@ bool mason_create_slip39_wallet(uint8_t *slip39_seed_data, uint16_t slip39_seed_
 }
 /**
  * @functionname: mason_change_bip39_wallet_passphrase
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_change_bip39_wallet_passphrase(uint8_t *passphrase, uint16_t passphrase_len)
 {
@@ -595,9 +594,9 @@ static bool mason_change_bip39_wallet_passphrase(uint8_t *passphrase, uint16_t p
 }
 /**
  * @functionname: mason_change_slip39_wallet_passphrase
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_change_slip39_wallet_passphrase(uint8_t *passphrase, uint16_t passphrase_len)
 {
@@ -653,9 +652,9 @@ static bool mason_change_slip39_wallet_passphrase(uint8_t *passphrase, uint16_t 
 }
 /**
  * @functionname: mason_change_wallet_passphrase
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_change_wallet_passphrase(uint8_t *passphrase, uint16_t passphrase_len)
 {
@@ -673,9 +672,9 @@ bool mason_change_wallet_passphrase(uint8_t *passphrase, uint16_t passphrase_len
 }
 /**
  * @functionname: mason_wallet_setup
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static bool mason_wallet_setup(mnemonic_t *mnemonic, entropy_t *entropy, uint8_t *passphrase, uint16_t passphrase_len, wallet_seed_t *seed, wallet_seed_t *seedFromEntropy)
 {
@@ -691,9 +690,9 @@ static bool mason_wallet_setup(mnemonic_t *mnemonic, entropy_t *entropy, uint8_t
 }
 /**
  * @functionname: mason_delete_wallet
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_delete_wallet(void)
 {
@@ -703,7 +702,7 @@ bool mason_delete_wallet(void)
     wallet_seed_t seedFromEntropy = {0};
     wallet_slip39_master_seed_t slip39_m_seed = {0};
     wallet_seed_t slip39_d_seed = {0};
-    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = { 0 };
+    uint8_t key_pair[MAX_RSA_STORAGE_SIZE] = {0};
     uint32_t key_flag = 0;
     bool is_succeed = false;
 
@@ -774,9 +773,9 @@ bool mason_delete_wallet(void)
 }
 /**
  * @functionname: mason_update_key_load
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_update_key_load(update_key_t *update_key)
 {
@@ -789,9 +788,9 @@ bool mason_update_key_load(update_key_t *update_key)
 }
 /**
  * @functionname: mason_update_key_save
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_update_key_save(const update_key_t *update_key)
 {
@@ -801,9 +800,9 @@ bool mason_update_key_save(const update_key_t *update_key)
 }
 /**
  * @functionname: mason_wallet_path_is_pub
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_wallet_path_is_pub(char *string, uint16_t len)
 {
@@ -816,9 +815,9 @@ bool mason_wallet_path_is_pub(char *string, uint16_t len)
 }
 /**
  * @functionname: mason_wallet_path_is_priv
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_wallet_path_is_priv(char *string, uint16_t len)
 {
@@ -831,9 +830,9 @@ bool mason_wallet_path_is_priv(char *string, uint16_t len)
 }
 /**
  * @functionname: mason_parse_wallet_path_from_string
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_parse_wallet_path_from_string(char *string, uint16_t len, wallet_path_t *wallet_path)
 {
@@ -864,9 +863,9 @@ bool mason_parse_wallet_path_from_string(char *string, uint16_t len, wallet_path
 }
 /**
  * @functionname: mason_valid_wallet_path
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_valid_wallet_path(wallet_path_t *wallet_path)
 {
@@ -894,9 +893,9 @@ bool mason_valid_wallet_path(wallet_path_t *wallet_path)
 }
 /**
  * @functionname: mason_verify_mnemonic
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_verify_mnemonic(char *mnemonic_str, uint16_t len)
 {
@@ -931,9 +930,9 @@ emRetType mason_verify_mnemonic(char *mnemonic_str, uint16_t len)
 }
 /**
  * @functionname: mason_verify_slip39_seed
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 emRetType mason_verify_slip39_seed(uint8_t *slip39_seed_data, uint16_t slip39_seed_len, uint16_t slip39_id)
 {
@@ -977,8 +976,9 @@ emRetType mason_verify_slip39_seed(uint8_t *slip39_seed_data, uint16_t slip39_se
  * @para:
  * @return:
  */
-bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data) {
-    wallet_seed_t seed = { 0 };
+bool mason_pri_path_get_master_seed(wallet_seed_t *seed_data)
+{
+    wallet_seed_t seed = {0};
 
     if ((E_HDWM_PASSPHRASE == gemHDWSwitch) && (passphrase_slip39_seed.length))
     {
@@ -1009,9 +1009,9 @@ bool mason_pri_path_get_master_seed(wallet_seed_t* seed_data) {
 }
 /**
  * @functionname: mason_bip32_generate_master_key_from_root_seed
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_bip32_generate_master_key_from_root_seed(
     crypto_curve_t curve_type,
@@ -1088,9 +1088,9 @@ bool mason_bip32_generate_master_key_from_root_seed(
 }
 /**
  * @functionname: sha256sha256
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 static void sha256sha256(uint8_t *data, size_t len, uint8_t *digest)
 {
@@ -1100,9 +1100,9 @@ static void sha256sha256(uint8_t *data, size_t len, uint8_t *digest)
 }
 /**
  * @functionname: mason_bip32_derive_keys
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_bip32_derive_keys(
     wallet_path_t *wallet_path,
@@ -1182,9 +1182,9 @@ bool mason_bip32_derive_keys(
 }
 /**
  * @functionname: mason_bip32_derive_master_key_fingerprint
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_bip32_derive_master_key_fingerprint(crypto_curve_t curve, uint8_t *fingerprint, uint16_t fingerprint_len)
 {
@@ -1206,9 +1206,9 @@ bool mason_bip32_derive_master_key_fingerprint(crypto_curve_t curve, uint8_t *fi
 }
 /**
  * @functionname: mason_webauth_key_delete
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_webauth_key_delete(void)
 {

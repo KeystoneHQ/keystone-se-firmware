@@ -56,18 +56,18 @@ static UINT32 tamper_check_counter = 0;
 /** Function implementations */
 /**
  * @functionname: low_power_init
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void low_power_init(void)
 {
-	REG_SCU_PHYCR = 0x02 << 3;	//manual select internal RC
-	REG_SCU_PHYCR &= ~(1 << 0); //USB_PHY soft reset, use for force to manual select internal RC
+	REG_SCU_PHYCR = 0x02 << 3;	// manual select internal RC
+	REG_SCU_PHYCR &= ~(1 << 0); // USB_PHY soft reset, use for force to manual select internal RC
 	delay(1);
 	REG_SCU_PHYCR |= (1 << 0);
 
-	//all PINs config as GPIO , reduce 1.5mA, config base on actual confiditons
+	// all PINs config as GPIO , reduce 1.5mA, config base on actual confiditons
 #if 1
 	REG_SCU_PSCR1 = 0;
 	REG_SCU_PSCR2 = 0;
@@ -75,31 +75,31 @@ void low_power_init(void)
 #endif
 
 	REG_SCU_PSCR2 = (REG_SCU_PSCR2 & ~(0x03 << 14)) | 0x00 << 14; // close clockout
-	REG_SCU_PSCR2 &= ~(0x03 << 18);								  //DET0 as GPIO
-	REG_SCU_PSCR2 |= (0x01 << 16);								  //enable RSTN
+	REG_SCU_PSCR2 &= ~(0x03 << 18);								  // DET0 as GPIO
+	REG_SCU_PSCR2 |= (0x01 << 16);								  // enable RSTN
 
-	REG_SCU_RCCR &= ~(1 << 7);				 //disable X12M 8mA
-	REG_SCU_RCCR &= ~(1 << 0);				 //disable RC32K
-	REG_SCU_PHYCR |= 1 << 2;				 //disable PLL 2.8mA
-	REG_SCU_VDBATCR &= ~(1 << 0);			 //disable VBAT
-	REG_SCU_MICCR &= ~((1 << 3) | (1 << 0)); //disable AUDIO/MIC
+	REG_SCU_RCCR &= ~(1 << 7);				 // disable X12M 8mA
+	REG_SCU_RCCR &= ~(1 << 0);				 // disable RC32K
+	REG_SCU_PHYCR |= 1 << 2;				 // disable PLL 2.8mA
+	REG_SCU_VDBATCR &= ~(1 << 0);			 // disable VBAT
+	REG_SCU_MICCR &= ~((1 << 3) | (1 << 0)); // disable AUDIO/MIC
 
-	init_module(BIT_EFC | BIT_ROM | BIT_SENSOR); //enable EFC/ROM/SENSOR;
+	init_module(BIT_EFC | BIT_ROM | BIT_SENSOR); // enable EFC/ROM/SENSOR;
 
 //  SENSOR function power could be config (default BUS/TD/LD/AS/VD/PGD enable)
 #if 1
-	REG_SENSOR_SECR1 |= ((1 << 17) | (1 << 16) | (1 << 8) | (1 << 4) | (1 << 0)); //enable verify ROM/BUS/TD/IFD/EFD
-	REG_SENSOR_SECR2 |= ((1 << 14) | (1 << 11) | (1 << 4) | (1 << 0));			  //enable verify LD/AS/VD/PGD
+	REG_SENSOR_SECR1 |= ((1 << 17) | (1 << 16) | (1 << 8) | (1 << 4) | (1 << 0)); // enable verify ROM/BUS/TD/IFD/EFD
+	REG_SENSOR_SECR2 |= ((1 << 14) | (1 << 11) | (1 << 4) | (1 << 0));			  // enable verify LD/AS/VD/PGD
 #else
-	REG_SENSOR_SECR1 &= ~((1 << 17) | (1 << 16) | (1 << 8) | (1 << 4) | (1 << 0)); //forbid verify ROM/BUS/TD/IFD/EFD
-	REG_SENSOR_SECR2 &= ~((1 << 14) | (1 << 11) | (1 << 4) | (1 << 0));			   //forbid verify LD/AS/VD/PGD
+	REG_SENSOR_SECR1 &= ~((1 << 17) | (1 << 16) | (1 << 8) | (1 << 4) | (1 << 0)); // forbid verify ROM/BUS/TD/IFD/EFD
+	REG_SENSOR_SECR2 &= ~((1 << 14) | (1 << 11) | (1 << 4) | (1 << 0));			   // forbid verify LD/AS/VD/PGD
 #endif
 }
 /**
  * @functionname: tamper_init
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void tamper_init(void)
 {
@@ -110,51 +110,51 @@ void tamper_init(void)
 	enable_module(BIT_GPIO);
 	gpio_init();
 
-	REG_SCU_PSCR2 &= ~(0x03 << 18); //DET0 as GPIO
-	REG_SCU_PSCR1 &= ~(0x03 << 4);	//DET1 as GPIO
-	REG_SCU_PSCR1 &= ~(0x03 << 6);	//DET2 as GPIO
-	REG_SCU_PSCR1 &= ~(0x03 << 8);	//DET3 as GPIO
+	REG_SCU_PSCR2 &= ~(0x03 << 18); // DET0 as GPIO
+	REG_SCU_PSCR1 &= ~(0x03 << 4);	// DET1 as GPIO
+	REG_SCU_PSCR1 &= ~(0x03 << 6);	// DET2 as GPIO
+	REG_SCU_PSCR1 &= ~(0x03 << 8);	// DET3 as GPIO
 
-	//DET0, Active defense trigger, wakeup from sleep
-	REG_GPIO_DIR &= ~BIT_DET0; //set input function
-	REG_GPIO_IC |= BIT_DET0;   //clean irq
-	REG_GPIO_IS |= BIT_DET0;   //level detect
-	REG_GPIO_IEV &= ~BIT_DET0; //low level trigger
+	// DET0, Active defense trigger, wakeup from sleep
+	REG_GPIO_DIR &= ~BIT_DET0; // set input function
+	REG_GPIO_IC |= BIT_DET0;   // clean irq
+	REG_GPIO_IS |= BIT_DET0;   // level detect
+	REG_GPIO_IEV &= ~BIT_DET0; // low level trigger
 
-	//DET1, Passtive defense trigger,
-	REG_GPIO_DIR &= ~BIT_DET1; //set input function
-	REG_GPIO_IC |= BIT_DET1;   //clean irq
-	REG_GPIO_IS &= ~BIT_DET1;  //edge detect
-	REG_GPIO_IBE &= ~BIT_DET1; //single edge trigger
-	REG_GPIO_IEV |= BIT_DET1;  //rising edge trigger
+	// DET1, Passtive defense trigger,
+	REG_GPIO_DIR &= ~BIT_DET1; // set input function
+	REG_GPIO_IC |= BIT_DET1;   // clean irq
+	REG_GPIO_IS &= ~BIT_DET1;  // edge detect
+	REG_GPIO_IBE &= ~BIT_DET1; // single edge trigger
+	REG_GPIO_IEV |= BIT_DET1;  // rising edge trigger
 
-	//DET2, Passtive defense trigger,
-	REG_GPIO_DIR &= ~BIT_DET2; //set input function
-	REG_GPIO_IC |= BIT_DET2;   //clean irq
-	REG_GPIO_IS &= ~BIT_DET2;  //edge detect
-	REG_GPIO_IBE &= ~BIT_DET2; //single edge trigger
-	REG_GPIO_IEV |= BIT_DET2;  //rising edge trigger
+	// DET2, Passtive defense trigger,
+	REG_GPIO_DIR &= ~BIT_DET2; // set input function
+	REG_GPIO_IC |= BIT_DET2;   // clean irq
+	REG_GPIO_IS &= ~BIT_DET2;  // edge detect
+	REG_GPIO_IBE &= ~BIT_DET2; // single edge trigger
+	REG_GPIO_IEV |= BIT_DET2;  // rising edge trigger
 
-	//DET3, Passtive defense trigger,
-	REG_GPIO_DIR &= ~BIT_DET3; //set input function
-	REG_GPIO_IC |= BIT_DET3;   //clean irq
-	REG_GPIO_IS &= ~BIT_DET3;  //edge detect
-	REG_GPIO_IBE &= ~BIT_DET3; //single edge trigger
-	REG_GPIO_IEV |= BIT_DET3;  //rising edge trigger
+	// DET3, Passtive defense trigger,
+	REG_GPIO_DIR &= ~BIT_DET3; // set input function
+	REG_GPIO_IC |= BIT_DET3;   // clean irq
+	REG_GPIO_IS &= ~BIT_DET3;  // edge detect
+	REG_GPIO_IBE &= ~BIT_DET3; // single edge trigger
+	REG_GPIO_IEV |= BIT_DET3;  // rising edge trigger
 
 	if (!(status.emHDWStatus == E_HDWS_CHIP || status.emHDWStatus == E_HDWS_FACTORY))
 	{
-		REG_GPIO_IEN |= BIT_DET0; //Enable Irq
-		REG_GPIO_IEN |= BIT_DET1; //Enable Irq
-		REG_GPIO_IEN |= BIT_DET2; //Enable Irq
-		REG_GPIO_IEN |= BIT_DET3; //Enable Irq
+		REG_GPIO_IEN |= BIT_DET0; // Enable Irq
+		REG_GPIO_IEN |= BIT_DET1; // Enable Irq
+		REG_GPIO_IEN |= BIT_DET2; // Enable Irq
+		REG_GPIO_IEN |= BIT_DET3; // Enable Irq
 	}
 }
 /**
  * @functionname: enter_sleep
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void enter_sleep(void)
 {
@@ -165,36 +165,36 @@ void enter_sleep(void)
 
 	mason_get_mode(&status);
 	delay(0x80000);
-	//printf("REG_SCU_PSCR2 = %08X\r\n", REG_SCU_PSCR2);
-	//printf("Sleep now!\r\n");
+	// printf("REG_SCU_PSCR2 = %08X\r\n", REG_SCU_PSCR2);
+	// printf("Sleep now!\r\n");
 	backup_PSCR1 = REG_SCU_PSCR1;
 	backup_PSCR2 = REG_SCU_PSCR2;
 	backup_PSCR3 = REG_SCU_PSCR3;
-	//all function pin as gpio
+	// all function pin as gpio
 	REG_SCU_PSCR1 = 0;
 	REG_SCU_PSCR2 = 0;
 	REG_SCU_PSCR3 = 0;
-	REG_SCU_PSCR2 |= (0x01 << 16);									  //enable RSTN
-	REG_SCU_PSCR1 = (REG_SCU_PSCR1 & (~(0x0f << 22))) | (0x05 << 22); //keep UARTA
+	REG_SCU_PSCR2 |= (0x01 << 16);									  // enable RSTN
+	REG_SCU_PSCR1 = (REG_SCU_PSCR1 & (~(0x0f << 22))) | (0x05 << 22); // keep UARTA
 
 	backup_RCR = REG_SCU_RCR;
-	REG_SCU_RCR &= ~((1 << 11) | (1 << 8) | (1 << 7) | (1 << 6) | (1 << 5) | (1 << 4) | (1 << 3) | (1 << 2) | (1 << 1) | (1 << 0)); //disable CGD/BUS/PGD/AS/FD/TDL/TDH/LD/VDH/VDL reset
+	REG_SCU_RCR &= ~((1 << 11) | (1 << 8) | (1 << 7) | (1 << 6) | (1 << 5) | (1 << 4) | (1 << 3) | (1 << 2) | (1 << 1) | (1 << 0)); // disable CGD/BUS/PGD/AS/FD/TDL/TDH/LD/VDH/VDL reset
 
 	backup_SECR1 = REG_SENSOR_SECR1;
 	backup_SECR2 = REG_SENSOR_SECR2;
-	REG_SENSOR_SECR1 &= ~((1 << 17) | (1 << 16) | (1 << 8) | (1 << 4) | (1 << 0)); //forbid verify ROM/BUS/TD/IFD/EFD
-	REG_SENSOR_SECR2 &= ~((1 << 14) | (1 << 11) | (1 << 4) | (1 << 0));			   //forbid verify LD/AS/VD/PGD
+	REG_SENSOR_SECR1 &= ~((1 << 17) | (1 << 16) | (1 << 8) | (1 << 4) | (1 << 0)); // forbid verify ROM/BUS/TD/IFD/EFD
+	REG_SENSOR_SECR2 &= ~((1 << 14) | (1 << 11) | (1 << 4) | (1 << 0));			   // forbid verify LD/AS/VD/PGD
 
-	REG_SCU_CCR |= (1 << 4);	//RC48M power down when standby
-	REG_SCU_CCR |= (0x03 << 5); //LDO12 power down when standby
+	REG_SCU_CCR |= (1 << 4);	// RC48M power down when standby
+	REG_SCU_CCR |= (0x03 << 5); // LDO12 power down when standby
 
 	if (status.emHDWStatus == E_HDWS_CHIP || status.emHDWStatus == E_HDWS_FACTORY)
 	{
-		REG_SCU_WUCR = (1 << 2) | (1 << 8); //enable uarta-rx & GPIO30
+		REG_SCU_WUCR = (1 << 2) | (1 << 8); // enable uarta-rx & GPIO30
 	}
 	else
 	{
-		REG_SCU_WUCR = (1 << 2) | (1 << 8) | (1 << 9); //enable uarta-rx & GPIO30 & GPIO25 wakeup
+		REG_SCU_WUCR = (1 << 2) | (1 << 8) | (1 << 9); // enable uarta-rx & GPIO30 & GPIO25 wakeup
 	}
 
 	init_module(BIT_SENSOR | BIT_ROM | BIT_EFC | BIT_UARTA | BIT_GPIO); // init modules
@@ -210,17 +210,17 @@ void enter_sleep(void)
 	REG_SCU_PSCR3 = backup_PSCR3;
 
 	delay(10000);
-	enable_module(BIT_TIMER | BIT_WDT); //enable timer and WDT module
-	//printf("Wake up!!!\r\n");
-	//printf("REG_SCU_PSCR2 = %08X\r\n", REG_SCU_PSCR2);
+	enable_module(BIT_TIMER | BIT_WDT); // enable timer and WDT module
+	// printf("Wake up!!!\r\n");
+	// printf("REG_SCU_PSCR2 = %08X\r\n", REG_SCU_PSCR2);
 
 	bIsOnSleeping = false;
 }
 /**
  * @functionname: tamper_check
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void tamper_check(void)
 {
@@ -250,33 +250,33 @@ void tamper_check(void)
 
 	if (flag_active_defense_trigger)
 	{
-		//printf("Defense trigger active!\r\n");
-		REG_GPIO_IEN |= BIT_DET0; //enable irq
+		// printf("Defense trigger active!\r\n");
+		REG_GPIO_IEN |= BIT_DET0; // enable irq
 		flag_active_defense_trigger = false;
 	}
 
 	if (flag_passtive_defense_trigger)
 	{
-		//printf("Defense trigger passtive!\r\n");
-		REG_GPIO_IEN |= (BIT_DET1 | BIT_DET2 | BIT_DET3); //enable irq
+		// printf("Defense trigger passtive!\r\n");
+		REG_GPIO_IEN |= (BIT_DET1 | BIT_DET2 | BIT_DET3); // enable irq
 		flag_passtive_defense_trigger = false;
 	}
 
 	if (gpio_low(BIT_DET0, 500))
 	{
-		//printf("Active defense !\r\n");
+		// printf("Active defense !\r\n");
 		defense_trig_flag = true;
 	}
 
-	if (gpio_high(BIT_DET1, 500)||gpio_high(BIT_DET2, 500)||gpio_high(BIT_DET3, 500))
+	if (gpio_high(BIT_DET1, 500) || gpio_high(BIT_DET2, 500) || gpio_high(BIT_DET3, 500))
 	{
-		//printf("Passive defense !\r\n");
+		// printf("Passive defense !\r\n");
 		defense_trig_flag = true;
 	}
 
 	if (E_HDWS_ATTACK == status.emHDWStatus)
 	{
-		//printf("Status in ATTCK!\r\n");
+		// printf("Status in ATTCK!\r\n");
 		defense_trig_flag = true;
 	}
 
@@ -284,11 +284,11 @@ void tamper_check(void)
 	{
 		if (E_HDWS_ATTACK == status.emHDWStatus)
 		{
-			//printf("Already in ATTCK!\r\n");
+			// printf("Already in ATTCK!\r\n");
 		}
 		else
 		{
-			//printf("Status goto ATTCK!\r\n");
+			// printf("Status goto ATTCK!\r\n");
 			mason_set_mode(HDW_STATUS_ATTACK);
 			mason_delete_wallet();
 			mason_setting_delete();
@@ -298,9 +298,9 @@ void tamper_check(void)
 }
 /**
  * @functionname: mason_init
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 void mason_init(void)
 {
@@ -308,9 +308,9 @@ void mason_init(void)
 }
 /**
  * @functionname: main
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 int main(void)
 {

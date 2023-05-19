@@ -25,9 +25,9 @@ in the file COPYING.  If not, see <http://www.gnu.org/licenses/>.
 /** Function implementations */
 /**
  * @functionname: mason_storage_encryption
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 MASON_STORAGE_EXT emRetType mason_storage_encryption(uint8_t nType, uint8_t *pIn, uint16_t len, uint8_t *pOut)
 {
@@ -35,9 +35,9 @@ MASON_STORAGE_EXT emRetType mason_storage_encryption(uint8_t nType, uint8_t *pIn
 }
 /**
  * @functionname: mason_storage_read
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 MASON_STORAGE_EXT emRetType mason_storage_read(uint8_t *pBuf, uint32_t bufLen, uint32_t addr)
 {
@@ -54,9 +54,9 @@ MASON_STORAGE_EXT emRetType mason_storage_read(uint8_t *pBuf, uint32_t bufLen, u
 }
 /**
  * @functionname: mason_storage_read_flag
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 MASON_STORAGE_EXT uint32_t
 mason_storage_read_flag(uint32_t addr)
@@ -65,9 +65,9 @@ mason_storage_read_flag(uint32_t addr)
 }
 /**
  * @functionname: mason_storage_write_flag
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 MASON_STORAGE_EXT emRetType
 mason_storage_write_flag(uint32_t addr, uint32_t u32Flag)
@@ -78,9 +78,9 @@ mason_storage_write_flag(uint32_t addr, uint32_t u32Flag)
 }
 /**
  * @functionname: mason_storage_write_flag_safe
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 MASON_STORAGE_EXT emRetType
 mason_storage_write_flag_safe(uint32_t addr, uint32_t u32Flag)
@@ -96,9 +96,9 @@ mason_storage_write_flag_safe(uint32_t addr, uint32_t u32Flag)
 }
 /**
  * @functionname: mason_storage_check_flag
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 MASON_STORAGE_EXT bool
 mason_storage_check_flag(uint32_t addr, uint32_t u32Flag)
@@ -107,9 +107,9 @@ mason_storage_check_flag(uint32_t addr, uint32_t u32Flag)
 }
 /**
  * @functionname: mason_storage_write_buffer_in_one_page
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_storage_write_buffer_in_one_page(uint8_t *buffer, uint32_t len, uint32_t addr)
 {
@@ -140,9 +140,9 @@ bool mason_storage_write_buffer_in_one_page(uint8_t *buffer, uint32_t len, uint3
 }
 /**
  * @functionname: mason_storage_write_buffer
- * @description: 
- * @para: 
- * @return: 
+ * @description:
+ * @para:
+ * @return:
  */
 bool mason_storage_write_buffer(uint8_t *buffer, uint32_t len, uint32_t addr)
 {
