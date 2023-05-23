@@ -3,6 +3,8 @@ Objects/*
 binHistory/
 hexHistory/
 !Objects/*.fed
+artifacts/*
+!artifacts/.gitkeep
 
 # build files
 *.hex
@@ -17,3 +19,4 @@ hexHistory/
 *uvgui*
 *.dep
 .idea/
+.DS_Store
