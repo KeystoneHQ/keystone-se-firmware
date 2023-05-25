@@ -352,6 +352,53 @@ bool mason_write_rsa_keypair(uint8_t* key)
     
     return true;
 }
+
+/**
+ * @functionname: mason_read_ada_root_key
+ * @description:
+ * @para:
+ * @return:
+ */
+bool mason_read_ada_root_key(uint8_t* key)
+{
+    if (!mason_storage_check_flag(FLASH_ADDR_ADA_ROOT_KEY_FLAG, FLAG_ADA_ROOT_KEY_EXIST)) 
+    {
+        return false;
+    }
+    uint8_t ada_root_key[96] = { 0 };
+    if (ERT_OK != mason_storage_read(ada_root_key, 96, FLASH_ADDR_ADA_ROOT_KEY))
+    {
+        return false;
+    }
+    memcpy(key, ada_root_key, 96);
+    memset(ada_root_key, 0, 96);
+    return true;
+}
+
+/**
+ * @functionname: mason_write_ada_root_key
+ * @description:
+ * @para:
+ * @return:
+ */
+bool mason_write_ada_root_key(uint8_t* key)
+{
+    uint8_t ada_root_key[96] = { 0 };
+    memcpy(ada_root_key, key, 96);
+    if (!mason_storage_write_buffer(ada_root_key, 96, FLASH_ADDR_ADA_ROOT_KEY))
+    {
+        return false;
+    }
+
+    if (ERT_OK != mason_storage_write_flag_safe(FLASH_ADDR_ADA_ROOT_KEY_FLAG, FLAG_ADA_ROOT_KEY_EXIST))
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+
 /**
  * @functionname: mason_create_bip39_wallet
  * @description: 

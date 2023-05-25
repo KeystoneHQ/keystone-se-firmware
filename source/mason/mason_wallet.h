@@ -42,6 +42,8 @@ enum SupportEntropyBits
 #define MAX_RSA_KEYPAIR 1536
 #define MAX_RSA_STORAGE_SIZE 512
 #define FLAG_RSA_KEYPAIR_EXIST (0x9710CE2D) //just random value for the flag
+#define FLAG_ADA_ROOT_KEY_EXIST (0xE794AF5) //just random value for the flag
+
 
 typedef struct mnemonic_s
 {

@@ -125,6 +125,11 @@ extern "C"
 #define FLASH_ADDR_RSA_KEYPAIR_D              (FLSAH_ADDR_RSA_KEYPAIR_P_Q+PAGE_SIZE)
 // 0x39800 rsa keypair d -- 1 page
 #define FLASH_ADDR_RSA_KEYPAIR_N              (FLASH_ADDR_RSA_KEYPAIR_D+PAGE_SIZE)
+// 0x39A00 ADA root_key
+#define FLASH_ADDR_ADA_ROOT_KEY               (FLASH_ADDR_RSA_KEYPAIR_N+PAGE_SIZE)
+#define ADA_ROOT_KEY_SIZE                     96
+#define FLASH_ADDR_ADA_ROOT_KEY_FLAG          (FLASH_ADDR_ADA_ROOT_KEY + ADA_ROOT_KEY_SIZE)
+#define ADA_ROOT_KEY_FLAG_SIZE               4
 
 #define FLASH_ADDR_PU_CNT_4B				(FLASH_ADDR_MAX-4)
 
