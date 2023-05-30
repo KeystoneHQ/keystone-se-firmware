@@ -103,6 +103,8 @@ bool mason_slip39_master_seed_read(wallet_slip39_master_seed_t *seed);
 bool mason_slip39_dec_seed_read(wallet_seed_t *seed);
 bool mason_read_rsa_keypair(uint8_t* key);
 bool mason_write_rsa_keypair(uint8_t* key);
+bool mason_write_ada_root_key(uint8_t* key);
+bool mason_read_ada_root_key(uint8_t* key);
 bool mason_update_key_load(update_key_t *update_key);
 bool mason_update_key_save(const update_key_t *update_key);
 bool mason_wallet_path_is_pub(char *string, uint16_t len);

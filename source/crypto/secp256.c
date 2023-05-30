@@ -129,28 +129,6 @@ bool secp256k1_private_key_to_public_key(uint8_t *private_key, uint8_t *public_k
  * @para: 
  * @return: 
  */
-bool secp256r1_private_key_to_public_key(uint8_t *private_key, uint8_t *public_key_x, uint8_t *public_key_y)
-{
-    bool is_succeed = false;
-    uint32_t ecc_private_key[8] = {0};
-    uint32_t ecc_public_key_x[8] = {0};
-    uint32_t ecc_public_key_y[8] = {0};
-
-    ecc_utils_buffer_to_ecc_array(private_key, ecc_private_key, 8);
-
-    enable_module(BIT_PKI);
-    is_succeed = (0 == ECC_PM(
-                           &secp256r1_ecc_g_str,
-                           ecc_private_key,
-                           SECP256R1_G_BaseX,
-                           SECP256R1_G_BaseY,
-                           ecc_public_key_x,
-                           ecc_public_key_y));
-
-    ecc_utils_ecc_array_to_buffer(ecc_public_key_x, 8, public_key_x);
-    ecc_utils_ecc_array_to_buffer(ecc_public_key_y, 8, public_key_y);
-    return is_succeed;
-}
 /**
  * @functionname: secp256k1_add_mod
  * @description: 
@@ -175,31 +153,6 @@ void secp256k1_add_mod(uint8_t *a, uint8_t *b, uint8_t *output)
         &sum_len,
         0x02);
     ecc_utils_ecc_array_to_buffer(ecc_sum, SECP256K1_CURVE_LENGTH, output);
-}
-/**
- * @functionname: secp256r1_add_mod
- * @description: 
- * @para: 
- * @return: 
- */
-void secp256r1_add_mod(uint8_t *a, uint8_t *b, uint8_t *output)
-{
-    uint32_t ecc_a[SECP256R1_CURVE_LENGTH];
-    uint32_t ecc_b[SECP256R1_CURVE_LENGTH];
-    uint32_t ecc_sum[SECP256R1_CURVE_LENGTH];
-    uint8_t sum_len = 0;
-
-    ecc_utils_buffer_to_ecc_array(a, ecc_a, SECP256R1_CURVE_LENGTH);
-    ecc_utils_buffer_to_ecc_array(b, ecc_b, SECP256R1_CURVE_LENGTH);
-    enable_module(BIT_PKI);
-    ECC_mod_add_sub(
-        ecc_a, SECP256R1_CURVE_LENGTH,
-        ecc_b, SECP256R1_CURVE_LENGTH,
-        SECP256R1_N, SECP256R1_CURVE_LENGTH,
-        ecc_sum,
-        &sum_len,
-        0x02);
-    ecc_utils_ecc_array_to_buffer(ecc_sum, SECP256R1_CURVE_LENGTH, output);
 }
 /**
  * @functionname: secp256k1_generate_valid_key

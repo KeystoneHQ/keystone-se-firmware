@@ -90,6 +90,9 @@ extern "C"
 #define TLV_T_REQ_MASTER_SEED           0x0217
 #define TLV_T_REQ_ENTROPY               0x0218
 #define TLV_T_ENTROPY_DATA              0x0219
+#define TLV_T_REQ_ADA_KEY               0x021A
+#define TLV_T_ADA_KEY_DATA              0x021B
+#define TLV_T_ADA_KEY                   0x021C
 
 #define TLV_T_DES_KEY					0x0301
 #define TLV_T_PRVKEY					0x0302

@@ -138,12 +138,6 @@ void private_key_to_public_key(
                                             public_key->data,
                                             public_key->data + PUBLIC_KEY_LEN / 2);
     }
-    else if (curve == CRYPTO_CURVE_SECP256R1)
-    {
-        secp256r1_private_key_to_public_key(private_key->data,
-                                            public_key->data,
-                                            public_key->data + PUBLIC_KEY_LEN / 2);
-    }
     else if (curve == CRYPTO_CURVE_ED25519)
     {
         ed25519_private_key_to_public_key(private_key->data, public_key->data);

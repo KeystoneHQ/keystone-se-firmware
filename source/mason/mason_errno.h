@@ -103,6 +103,8 @@ extern "C"
 		ERT_WriteRSAkeyFail,
 		RET_ReadRSAkeyFail,
 		ERT_GETEntropyFail,
+		ERT_GETADAKeyFail,
+		ERT_WriteADAkeyFail,
 
 		ERT_IAP_FAIL = 0x0600,
 		ERT_FWUpdateFail,

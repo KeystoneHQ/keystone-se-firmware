@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 4.1 [Build 481]: Last Updated: Fri May 19 17:09:59 2023
+;#<FEEDBACK># ARM Linker, 4.1 [Build 481]: Last Updated: Tue May 30 14:05:44 2023
 ;VERSION 0.2
 ;FILE base58.o
 __asm___8_base58_c_d7aa15c2____REV16 <= USED 0
@@ -183,7 +183,6 @@ rsa_variable_initial <= USED 0
 ;FILE secp256.o
 __asm___9_secp256_c_5ce32c01____REV16 <= USED 0
 __asm___9_secp256_c_5ce32c01____REVSH <= USED 0
-secp256r1_add_mod <= USED 0
 ;FILE sha2.o
 sha1_Data <= USED 0
 sha1_End <= USED 0

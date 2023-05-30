@@ -1726,6 +1726,16 @@ static void mason_cmd0302_create_wallet(void *pContext)
 				break;
 			}
 		}
+		else if(stack_search_by_tag(pstS, &pstTLV, TLV_T_ADA_KEY))
+		{
+			uint8_t* buff = (uint8_t*)pstTLV->pV;
+
+			if (!mason_write_ada_root_key(buff))
+			{
+				emRet = ERT_WriteADAkeyFail;
+				break;
+			}
+		}
 		else
 		{
 			emRet = ERT_CommFailParam;
@@ -1912,6 +1922,24 @@ static void mason_cmd0305_get_key(void *pContext)
 			}
 			emRet = ERT_OK;
 			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_ENTROPY_DATA, entropy.size, entropy.data);
+			break;
+		}
+
+		if (stack_search_by_tag(pstS, &pstTLV, TLV_T_REQ_ADA_KEY))
+		{
+			uint8_t ada_root_key[96] = { 0 };
+
+			if (ERT_Verify_Success != (emRet = mason_cmd_verify_token(pstS, &pstTLV)))
+			{
+				break;
+			}
+			if (!mason_read_ada_root_key(ada_root_key)) 
+			{
+				emRet = ERT_GETADAKeyFail;
+				break;
+			}
+			emRet = ERT_OK;
+			mason_cmd_append_to_outputTLVArray(&stStack, TLV_T_ADA_KEY_DATA, 96, ada_root_key);
 			break;
 		}
 
