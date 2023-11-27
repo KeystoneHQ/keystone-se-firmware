@@ -42,8 +42,8 @@ extern "C"
 #define VER_REL 1 // 0 -- develop mode , 1 -- release mode
 
 #define VER_Major 1
-#define VER_Minor 5
-#define VER_Release 9
+#define VER_Minor 6
+#define VER_Release 0
 #define VER_Build 00000
 
 #if VER_Major > 0x9 || VER_Minor > 0x9 || VER_Release > 0x9 || VER_Build > 0x0FFFFF
